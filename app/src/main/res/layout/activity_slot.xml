@@ -17,36 +17,23 @@
         android:background="@color/colorAccent"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="32dp">
+        android:padding="@dimen/slot_margin">
 
-        <FrameLayout
-            android:layout_width="240dp"
-            android:layout_height="128dp"
-            android:layout_marginBottom="32dp">
-
-            <ListView
-                android:id="@+id/slot_drum"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#ffffff" />
-
-            <View
-                android:id="@+id/slot_cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#3300ff00" />
-
-        </FrameLayout>
+        <jp.gr.java_conf.shygoo.people_slots.SlotDrumView
+            android:id="@+id/slot_drum"
+            android:layout_width="@dimen/slot_drum_width"
+            android:layout_height="@dimen/slot_drum_height"
+            android:layout_marginBottom="@dimen/slot_margin" />
 
         <Button
             android:id="@+id/slot_start"
-            android:layout_width="96dp"
+            android:layout_width="@dimen/slot_button_width"
             android:layout_height="wrap_content"
             android:text="@string/start" />
 
         <Button
             android:id="@+id/slot_stop"
-            android:layout_width="96dp"
+            android:layout_width="@dimen/slot_button_width"
             android:layout_height="wrap_content"
             android:text="@string/stop"
             android:visibility="gone" />

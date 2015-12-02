@@ -8,17 +8,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SlotParent">
-        <item name="android:layout_width">@dimen/slot_width</item>
-        <item name="android:layout_height">@dimen/slot_height</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:background">#ffffff</item>
-        <item name="android:scrollbars">none</item>
-    </style>
-
-    <style name="SlotChild">
-        <item name="android:layout_width">@dimen/slot_width</item>
-        <item name="android:layout_height">@dimen/slot_item_height</item>
-    </style>
-
 </resources>
