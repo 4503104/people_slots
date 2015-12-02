@@ -2,12 +2,14 @@ package jp.gr.java_conf.shygoo.people_slots;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * メイン画面
+ */
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,9 +18,12 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.start)
-    public void start() {
-        Intent intent = new Intent(this, SlotActivity.class);
+    /**
+     * 名簿取り込み選択時の処理
+     */
+    @OnClick(R.id.ocr)
+    public void startOcr() {
+        Intent intent = new Intent(this, OcrActivity.class);
         startActivity(intent);
     }
 }

@@ -1,7 +1,6 @@
 package jp.gr.java_conf.shygoo.people_slots;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,7 +11,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SlotActivity extends AppCompatActivity {
+public class SlotActivity extends BaseActivity {
 
     // 画面部品
     @Bind(R.id.slot_drum)
