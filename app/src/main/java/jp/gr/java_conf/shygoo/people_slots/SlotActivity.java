@@ -1,73 +1,80 @@
 package jp.gr.java_conf.shygoo.people_slots;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Button;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class SlotActivity extends AppCompatActivity {
+
+    // 画面部品
+    @Bind(R.id.slot_drum)
+    SlotDrumView slotDrum;
+
+    @Bind(R.id.slot_start)
+    Button startButton;
+
+    @Bind(R.id.slot_stop)
+    Button stopButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slot_sample);
+        setContentView(R.layout.activity_slot);
+        ButterKnife.bind(this);
 
-        ListView listView = (ListView) findViewById(R.id.list);
-        listView.setAdapter(
-                new LoopListAdapter(
-                        this,
-                        Arrays.asList(new String[]{"ほげ", "ふが", "ぴよ"})
-                )
-        );
+        // スロット初期化
+        slotDrum.initialize(loadItems());
     }
 
-    public class LoopListAdapter extends BaseAdapter {
-        private List<String> itemTexts;
-        private LayoutInflater inflater;
+    /**
+     * 開始ボタンの処理
+     */
+    @OnClick(R.id.slot_start)
+    public void onClickStart() {
 
-        public LoopListAdapter(Context context, List<String> itemTexts) {
-            this.itemTexts = new ArrayList<>(itemTexts);
-            this.inflater = LayoutInflater.from(context);
-        }
+        // 回転開始
+        slotDrum.startSpin();
 
-        @Override
-        public int getCount() {
-            return Integer.MAX_VALUE;
-        }
+        // 停止ボタンを表示
+        startButton.setVisibility(View.GONE);
+        stopButton.setVisibility(View.VISIBLE);
+    }
 
-        @Override
-        public Object getItem(int position) {
-            return itemTexts.get(position % itemTexts.size());
-        }
+    /**
+     * 停止ボタンの処理
+     */
+    @OnClick(R.id.slot_stop)
+    public void onClickStop() {
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
+        // 回転終了
+        slotDrum.stopSpin();
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        // 開始ボタンを表示
+        stopButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.VISIBLE);
+    }
 
-            View view;
-            if (convertView == null) {
-                view = inflater.inflate(R.layout.item_slot, parent, false);
-            } else {
-                view = convertView;
-            }
+    // アイテム読み取り
+    private List<String> loadItems() {
 
-            TextView itemText = (TextView) view.findViewById(R.id.item_text);
-            itemText.setText((String) getItem(position));
-
-            return view;
-        }
+        // TODO: ユーザが設定したアイテムを読み込む
+        List<String> dummyItems = new ArrayList<>();
+        dummyItems.add("一郎");
+        dummyItems.add("二郎");
+        dummyItems.add("三郎");
+        dummyItems.add("士郎");
+        dummyItems.add("ゆう子");
+        dummyItems.add("雪子");
+        dummyItems.add("月子");
+        dummyItems.add("花子");
+        return dummyItems;
     }
 }
