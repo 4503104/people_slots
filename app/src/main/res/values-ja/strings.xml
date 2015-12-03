@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">今日の当番だぁれ？</string>
+
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="retry">やり直し</string>
+
+    <string name="method_ocr">名簿から取り込む</string>
+    <string name="method_frs">顔写真から取り込む</string>
+    <string name="method_manual">手入力</string>
+
+    <string name="request_roster">名簿を用意してください。</string>
+
+</resources>

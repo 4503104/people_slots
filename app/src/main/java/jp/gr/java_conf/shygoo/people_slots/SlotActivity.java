@@ -1,18 +1,24 @@
 package jp.gr.java_conf.shygoo.people_slots;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SlotActivity extends AppCompatActivity {
+public class SlotActivity extends BaseActivity {
+
+    private static final String LOG_TAG = SlotActivity.class.getSimpleName();
+
+    // スロットに表示するデータ
+    public static final String EXTRA_ITEMS = "items";
 
     // 画面部品
     @Bind(R.id.slot_drum)
@@ -30,8 +36,12 @@ public class SlotActivity extends AppCompatActivity {
         setContentView(R.layout.activity_slot);
         ButterKnife.bind(this);
 
+        // 表示アイテムを取得
+        List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
+        Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
+
         // スロット初期化
-        slotDrum.initialize(loadItems());
+        slotDrum.initialize(items);
     }
 
     /**
@@ -60,21 +70,8 @@ public class SlotActivity extends AppCompatActivity {
         // 開始ボタンを表示
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
-    }
 
-    // アイテム読み取り
-    private List<String> loadItems() {
-
-        // TODO: ユーザが設定したアイテムを読み込む
-        List<String> dummyItems = new ArrayList<>();
-        dummyItems.add("一郎");
-        dummyItems.add("二郎");
-        dummyItems.add("三郎");
-        dummyItems.add("士郎");
-        dummyItems.add("ゆう子");
-        dummyItems.add("雪子");
-        dummyItems.add("月子");
-        dummyItems.add("花子");
-        return dummyItems;
+        // TODO: 当選者を表示
+        // TODO: 当選者を除外して再抽選
     }
 }

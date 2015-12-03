@@ -9,7 +9,8 @@
         android:id="@+id/drum_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
+        android:background="@android:color/white"
+        android:divider="@null"
         android:scrollbars="none" />
 
     <LinearLayout
@@ -22,19 +23,19 @@
             android:id="@+id/drum_cover_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/slot_drum_margin"
-            android:background="#40808080" />
+            android:background="@drawable/drum_cover_top" />
 
         <View
             android:id="@+id/drum_cover_middle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/slot_item_height"
-            android:background="#2000ff00" />
+            android:layout_height="@dimen/slot_item_height" />
 
         <View
             android:id="@+id/drum_cover_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/slot_drum_margin"
-            android:background="#40808080" />
+            android:background="@drawable/drum_cover_bottom" />
+
     </LinearLayout>
 
 </FrameLayout>

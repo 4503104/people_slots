@@ -1,5 +1,15 @@
 <resources>
-    <string name="app_name">People Slots</string>
+
+    <string name="app_name">Who is on duty ?</string>
+
     <string name="start">START</string>
     <string name="stop">STOP</string>
+    <string name="retry">RETRY</string>
+
+    <string name="method_ocr">From Roster</string>
+    <string name="method_frs">From Portrait</string>
+    <string name="method_manual">Manual Editing</string>
+
+    <string name="request_roster">Prepare the roster.</string>
+
 </resources>
