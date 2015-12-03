@@ -20,12 +20,14 @@ import butterknife.ButterKnife;
  */
 public class SlotDrumView extends FrameLayout {
 
+    // TODO: Fragment化した方が良いかもしれない…
+
     // ドラム本体
     @Bind(R.id.drum_main)
     ListView drumMain;
 
     // 回転速度
-    private static final int SCROLL_INTERVAL_MSEC = 96;// TODO: 速度調整
+    private static final int SCROLL_INTERVAL_MSEC = 48;// TODO: 速度調整
 
     // 専用Adapter
     private CircularAdapter drumAdapter;
@@ -33,6 +35,7 @@ public class SlotDrumView extends FrameLayout {
     // 位置調整用
     private int itemStopPixel;
 
+    // TODO: 状態の退避＆復元
     // スロットの状態
     private boolean spinning;
     private int position;
