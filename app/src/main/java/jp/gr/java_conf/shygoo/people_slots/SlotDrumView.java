@@ -27,7 +27,7 @@ public class SlotDrumView extends FrameLayout {
     ListView drumMain;
 
     // 回転速度
-    private static final int SCROLL_INTERVAL_MSEC = 48;// TODO: 速度調整
+    private static final int SCROLL_INTERVAL_MSEC = 120;// TODO: 速度調整
 
     // 専用Adapter
     private CircularAdapter drumAdapter;

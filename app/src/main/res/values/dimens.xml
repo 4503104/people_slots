@@ -3,12 +3,12 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="slot_margin">32dp</dimen>
+    <dimen name="slot_margin">48dp</dimen>
     <dimen name="slot_drum_width">240dp</dimen>
-    <dimen name="slot_drum_height">128dp</dimen>
-    <dimen name="slot_drum_margin">32dp</dimen>
-    <dimen name="slot_item_height">64dp</dimen>
+    <dimen name="slot_drum_height">192dp</dimen>
+    <dimen name="slot_drum_margin">48dp</dimen>
+    <dimen name="slot_item_height">96dp</dimen>
     <dimen name="slot_item_text">48dp</dimen>
-    <dimen name="slot_button_width">96dp</dimen>
+    <dimen name="slot_button_width">128dp</dimen>
 
 </resources>
