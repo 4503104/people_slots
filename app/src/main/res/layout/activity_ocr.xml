@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="jp.gr.java_conf.shygoo.people_slots.OcrActivity">
+    tools:context=".activity.OcrActivity">
 
     <Button
         android:id="@+id/retry"

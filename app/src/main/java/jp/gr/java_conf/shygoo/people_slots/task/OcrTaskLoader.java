@@ -1,4 +1,4 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.task;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

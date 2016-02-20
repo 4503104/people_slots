@@ -1,4 +1,4 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -17,6 +17,8 @@ import java.util.UUID;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import icepick.State;
+import jp.gr.java_conf.shygoo.people_slots.task.OcrTaskLoader;
+import jp.gr.java_conf.shygoo.people_slots.R;
 
 /**
  * 光学文字認識による名簿取り込み画面

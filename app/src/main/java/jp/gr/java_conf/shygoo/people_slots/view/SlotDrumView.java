@@ -1,4 +1,4 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.adapter.CircularAdapter;
 
 /**
  * スロットマシンの回転する部分
@@ -84,18 +83,14 @@ public class SlotDrumView extends FrameLayout {
     }
 
     /**
-     * 初期化
+     * Adapter設定
      *
-     * @param items スロットに表示する要素（抽選対象）
+     * @param drumAdapter
      */
-    public void initialize(List<String> items) {
-
-        // スロットは通常のListViewとは上下逆向きに回転するので、Listを反転
-        List<String> reversedItems = new ArrayList<>(items);
-        Collections.reverse(reversedItems);
+    public void setDrumAdapter(CircularAdapter drumAdapter) {
 
         // 循環Adapterを設定
-        drumAdapter = new CircularAdapter(getContext(), R.layout.slot_item, reversedItems);
+        this.drumAdapter = drumAdapter;
         drumMain.setAdapter(drumAdapter);
 
         // ドラム位置を初期化

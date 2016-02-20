@@ -1,4 +1,4 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

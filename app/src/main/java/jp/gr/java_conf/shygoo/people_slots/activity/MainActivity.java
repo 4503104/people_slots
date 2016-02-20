@@ -1,10 +1,11 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.gr.java_conf.shygoo.people_slots.R;
 
 /**
  * メイン画面

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SlotActivity">
+    tools:context=".activity.SlotActivity">
 
     <LinearLayout
         android:id="@+id/slot_body"
@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:padding="@dimen/slot_margin">
 
-        <jp.gr.java_conf.shygoo.people_slots.SlotDrumView
+        <jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView
             android:id="@+id/slot_drum"
             android:layout_width="@dimen/slot_drum_width"
             android:layout_height="@dimen/slot_drum_height"

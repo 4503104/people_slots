@@ -1,5 +1,6 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +13,17 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.adapter.NameAdapter;
+import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
 public class SlotActivity extends BaseActivity {
 
     private static final String LOG_TAG = SlotActivity.class.getSimpleName();
+
+    // スロットの種類
+    public static final int SLOT_TYPE_NAME = 1;
+    public static final String EXTRA_SLOT_TYPE = "itemType";
 
     // スロットに表示するデータ
     public static final String EXTRA_ITEMS = "items";
@@ -36,12 +44,15 @@ public class SlotActivity extends BaseActivity {
         setContentView(R.layout.activity_slot);
         ButterKnife.bind(this);
 
-        // 表示アイテムを取得
-        List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
-        Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
-
-        // スロット初期化
-        slotDrum.initialize(items);
+        // 種別に応じてスロットを初期化
+        Intent intent = getIntent();
+        switch (intent.getIntExtra(EXTRA_SLOT_TYPE, SLOT_TYPE_NAME)) {
+            case SLOT_TYPE_NAME:
+                List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
+                Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
+                slotDrum.setDrumAdapter(new NameAdapter(this, items));
+                break;
+        }
     }
 
     /**
