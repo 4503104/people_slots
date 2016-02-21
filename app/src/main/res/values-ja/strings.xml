@@ -6,10 +6,11 @@
     <string name="stop">STOP</string>
     <string name="retry">やり直し</string>
 
-    <string name="method_ocr">名簿から取り込む</string>
-    <string name="method_frs">顔写真から取り込む</string>
-    <string name="method_manual">手入力</string>
+    <string name="type_name">名前でスロット</string>
+    <string name="type_face">顔でスロット</string>
 
     <string name="request_roster">名簿を用意してください。</string>
+
+    <string name="face">顔</string>
 
 </resources>

@@ -6,10 +6,11 @@
     <string name="stop">STOP</string>
     <string name="retry">RETRY</string>
 
-    <string name="method_ocr">From Roster</string>
-    <string name="method_frs">From Portrait</string>
-    <string name="method_manual">Manual Editing</string>
+    <string name="type_name">Name Slot</string>
+    <string name="type_face">Face Slot</string>
 
     <string name="request_roster">Prepare the roster.</string>
+
+    <string name="face">face</string>
 
 </resources>

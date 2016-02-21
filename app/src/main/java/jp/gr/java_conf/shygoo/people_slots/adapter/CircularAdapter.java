@@ -3,7 +3,6 @@ package jp.gr.java_conf.shygoo.people_slots.adapter;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,10 +19,7 @@ public abstract class CircularAdapter<T> extends BaseAdapter {
      * @param items
      */
     public CircularAdapter(List<T> items) {
-
-        // スロットは通常のListViewとは上下逆向きに回転するので、Listを反転
         this.items = new ArrayList<>(items);
-        Collections.reverse(this.items);
     }
 
     @Override

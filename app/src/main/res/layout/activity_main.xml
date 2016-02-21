@@ -12,23 +12,15 @@
     tools:context=".activity.MainActivity">
 
     <Button
-        android:id="@+id/frs"
+        android:id="@+id/type_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/method_frs"
-        android:visibility="gone" />
+        android:text="@string/type_name" />
 
     <Button
-        android:id="@+id/ocr"
+        android:id="@+id/type_face"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/method_ocr" />
-
-    <Button
-        android:id="@+id/manual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/method_manual"
-        android:visibility="gone" />
+        android:text="@string/type_face" />
 
 </LinearLayout>

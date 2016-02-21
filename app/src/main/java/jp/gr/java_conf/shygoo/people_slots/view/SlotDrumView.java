@@ -12,7 +12,7 @@ import java.util.TimerTask;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import jp.gr.java_conf.shygoo.people_slots.R;
-import jp.gr.java_conf.shygoo.people_slots.adapter.CircularAdapter;
+import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
 
 /**
  * スロットマシンの回転する部分
@@ -29,7 +29,7 @@ public class SlotDrumView extends FrameLayout {
     private static final int SCROLL_INTERVAL_MSEC = 120;// TODO: 速度調整
 
     // 専用Adapter
-    private CircularAdapter drumAdapter;
+    private SlotAdapter drumAdapter;
 
     // 位置調整用
     private int itemStopPixel;
@@ -87,9 +87,9 @@ public class SlotDrumView extends FrameLayout {
      *
      * @param drumAdapter
      */
-    public void setDrumAdapter(CircularAdapter drumAdapter) {
+    public void setDrumAdapter(SlotAdapter drumAdapter) {
 
-        // 循環Adapterを設定
+        // Adapterを設定
         this.drumAdapter = drumAdapter;
         drumMain.setAdapter(drumAdapter);
 

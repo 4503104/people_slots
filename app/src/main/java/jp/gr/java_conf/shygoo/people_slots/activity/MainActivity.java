@@ -20,9 +20,9 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     * 名簿取り込み選択時の処理
+     * 「名前」選択時の処理
      */
-    @OnClick(R.id.ocr)
+    @OnClick(R.id.type_name)
     public void startOcr() {
         Intent intent = new Intent(this, OcrActivity.class);
         startActivity(intent);

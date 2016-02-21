@@ -11,9 +11,9 @@ import java.util.List;
 import jp.gr.java_conf.shygoo.people_slots.R;
 
 /**
- * 名前を要素として持つCircularAdapter
+ * （人の）名前を要素として持つSlotAdapter
  */
-public class NameAdapter extends CircularAdapter<String> {
+public class NameSlotAdapter extends SlotAdapter<String> {
 
     // layout読み込み用
     private LayoutInflater inflater;
@@ -24,7 +24,7 @@ public class NameAdapter extends CircularAdapter<String> {
      * @param context
      * @param items
      */
-    public NameAdapter(Context context, List<String> items) {
+    public NameSlotAdapter(Context context, List<String> items) {
         super(items);
         this.inflater = LayoutInflater.from(context);
     }

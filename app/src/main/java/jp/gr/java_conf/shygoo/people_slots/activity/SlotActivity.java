@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.gr.java_conf.shygoo.people_slots.R;
-import jp.gr.java_conf.shygoo.people_slots.adapter.NameAdapter;
+import jp.gr.java_conf.shygoo.people_slots.adapter.NameSlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
 public class SlotActivity extends BaseActivity {
@@ -23,6 +23,7 @@ public class SlotActivity extends BaseActivity {
 
     // スロットの種類
     public static final int SLOT_TYPE_NAME = 1;
+    public static final int SLOT_TYPE_FACE = 2;
     public static final String EXTRA_SLOT_TYPE = "itemType";
 
     // スロットに表示するデータ
@@ -50,7 +51,7 @@ public class SlotActivity extends BaseActivity {
             case SLOT_TYPE_NAME:
                 List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
                 Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
-                slotDrum.setDrumAdapter(new NameAdapter(this, items));
+                slotDrum.setDrumAdapter(new NameSlotAdapter(this, items));
                 break;
         }
     }
