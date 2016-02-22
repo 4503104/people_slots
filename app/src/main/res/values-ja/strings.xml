@@ -6,8 +6,19 @@
     <string name="stop">STOP</string>
     <string name="retry">やり直し</string>
 
-    <string name="type_name">名前でスロット</string>
+    <string name="create_slot">新しいスロットを作る</string>
+
+    <string name="ask_type">スロットの種類を選んでください。</string>
     <string name="type_face">顔でスロット</string>
+    <string name="type_name">名前でスロット</string>
+
+    <string name="ask_capture_method">写真の取り込み方法を選んでください。</string>
+    <string name="capture_method_fr">顔認識を使う</string>
+    <string name="capture_method_manual">手動で取り込む</string>
+
+    <string name="ask_input_method">名前の取り込み方法を選んでください。</string>
+    <string name="input_method_ocr">名簿を撮影する</string>
+    <string name="input_method_manual">手で入力</string>
 
     <string name="request_roster">名簿を用意してください。</string>
 

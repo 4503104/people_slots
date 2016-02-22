@@ -6,14 +6,19 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.ArrayRes;
 import android.support.annotation.StringRes;
 
 /**
  * 選択肢から1つを選ばせるダイアログ
+ * TODO: Intent.createChooser()と混在すると不自然なので何とかしたい。
  */
 public class ChoiceDialogFragment extends DialogFragment {
+
+    // リソースIDを持たない選択肢を選ばれた場合のダミーID
+    private static final int UNKNOWN_ITEM = -1;
 
     // 引数
     private static final String ARG_TITLE_ID = "titleId";
@@ -40,22 +45,24 @@ public class ChoiceDialogFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 // 呼び出し元に選択されたリソースのIDを返す
-                OnClickListener listener = null;
+                OnSelectListener listener = null;
                 Activity activity = getActivity();
-                if (activity instanceof OnClickListener) {
-                    listener = (OnClickListener) activity;
+                if (activity instanceof OnSelectListener) {
+                    listener = (OnSelectListener) activity;
                 } else {
                     Fragment targetFragment = getTargetFragment();
-                    if (targetFragment instanceof OnClickListener) {
-                        listener = (OnClickListener) targetFragment;
+                    if (targetFragment instanceof OnSelectListener) {
+                        listener = (OnSelectListener) targetFragment;
                     }
                 }
                 if (listener == null) {
                     return;
                 }
-                int[] itemsId = getResources().getIntArray(getArguments().getInt(ARG_ITEMS_ID));
-                int selectedItemId = itemsId[which];
-                listener.onClick(selectedItemId);
+                int arrayId = getArguments().getInt(ARG_ITEMS_ID);
+                TypedArray typedArray = getResources().obtainTypedArray(arrayId);
+                int selectedItemResId = typedArray.getResourceId(which, UNKNOWN_ITEM);
+                typedArray.recycle();
+                listener.onSelectItem(selectedItemResId);
             }
         });
         return builder.create();
@@ -91,8 +98,8 @@ public class ChoiceDialogFragment extends DialogFragment {
         }
     }
 
-    public interface OnClickListener {
-        public void onClick(int itemId);
+    public interface OnSelectListener {
+        void onSelectItem(int itemId);
     }
 }
 

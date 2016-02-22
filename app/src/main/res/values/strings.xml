@@ -6,8 +6,32 @@
     <string name="stop">STOP</string>
     <string name="retry">RETRY</string>
 
-    <string name="type_name">Name Slot</string>
-    <string name="type_face">Face Slot</string>
+    <!-- TODO: 英語圏では"slot machineと書くべき？" -->
+    <string name="create_slot">Create new slot</string>
+
+    <string name="ask_type">Select slot-type.</string>
+    <string name="type_face">Face slot</string>
+    <string name="type_name">Name slot</string>
+    <string-array name="slot_types">
+        <item>@string/type_face</item>
+        <item>@string/type_name</item>
+    </string-array>
+
+    <string name="ask_capture_method">Select face capturing method.</string>
+    <string name="capture_method_fr">Facial Recognition</string>
+    <string name="capture_method_manual">Manual</string>
+    <string-array name="capture_methods">
+        <item>@string/capture_method_fr</item>
+        <item>@string/capture_method_manual</item>
+    </string-array>
+
+    <string name="ask_input_method">Select name input method.</string>
+    <string name="input_method_ocr">Optical Character Recognition</string>
+    <string name="input_method_manual">Manual</string>
+    <string-array name="input_methods">
+        <item>@string/input_method_ocr</item>
+        <item>@string/input_method_manual</item>
+    </string-array>
 
     <string name="request_roster">Prepare the roster.</string>
 

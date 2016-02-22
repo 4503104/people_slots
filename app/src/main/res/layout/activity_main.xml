@@ -12,15 +12,9 @@
     tools:context=".activity.MainActivity">
 
     <Button
-        android:id="@+id/type_name"
+        android:id="@+id/create_slot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/type_name" />
-
-    <Button
-        android:id="@+id/type_face"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/type_face" />
+        android:text="@string/create_slot" />
 
 </LinearLayout>
