@@ -22,8 +22,13 @@
 
     <string name="hint_name_input">名前を入力してください。</string>
 
-    <string name="request_roster">名簿を用意してください。</string>
+    <string name="request_group_photo">集合写真を撮影してください。</string>
+
+    <string name="request_roster_photo">名簿を撮影してください。</string>
 
     <string name="face">顔</string>
+
+    <string name="error_storage_permission">ストレージへの書き込みを許可してください。</string>
+    <string name="error_raw_photo">写真の取り込みに失敗しました。</string>
 
 </resources>

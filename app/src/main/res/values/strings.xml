@@ -35,8 +35,13 @@
 
     <string name="hint_name_input">Input name.</string>
 
-    <string name="request_roster">Prepare the roster.</string>
+    <string name="request_group_photo">Take a group photo.</string>
+
+    <string name="request_roster_photo">Take a photo of roster.</string>
 
     <string name="face">face</string>
+
+    <string name="error_storage_permission">Please permission to write storage.</string>
+    <string name="error_raw_photo">Failed to capture the photo.</string>
 
 </resources>
