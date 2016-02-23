@@ -23,12 +23,17 @@
     <string name="hint_name_input">名前を入力してください。</string>
 
     <string name="request_group_photo">集合写真を撮影してください。</string>
-
+    <string name="request_portrait_photo">顔写真を撮影してください。</string>
     <string name="request_roster_photo">名簿を撮影してください。</string>
+    <string name="request_crop_portrait">顔の部分を選択してください。</string>
+    <string name="request_crop_roster">取り込みたい範囲を選択してください。</string>
+
+    <string name="progress_ocr">文字認識中です…</string>
 
     <string name="face">顔</string>
 
     <string name="error_storage_permission">ストレージへの書き込みを許可してください。</string>
-    <string name="error_raw_photo">写真の取り込みに失敗しました。</string>
+    <string name="error_capture_image">写真の取り込みに失敗しました。</string>
+    <string name="error_crop_image">写真の切り出しに失敗しました。</string>
 
 </resources>

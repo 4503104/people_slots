@@ -36,12 +36,17 @@
     <string name="hint_name_input">Input name.</string>
 
     <string name="request_group_photo">Take a group photo.</string>
-
+    <string name="request_portrait_photo">Take a portrait.</string>
     <string name="request_roster_photo">Take a photo of roster.</string>
+    <string name="request_crop_portrait">Crop face.</string>
+    <string name="request_crop_roster">Crop target texts.</string>
+
+    <string name="progress_ocr">OCR running…</string>
 
     <string name="face">face</string>
 
     <string name="error_storage_permission">Please permission to write storage.</string>
-    <string name="error_raw_photo">Failed to capture the photo.</string>
+    <string name="error_capture_image">Failed to capture the photo.</string>
+    <string name="error_crop_image">Failed to crop the photo.</string>
 
 </resources>
