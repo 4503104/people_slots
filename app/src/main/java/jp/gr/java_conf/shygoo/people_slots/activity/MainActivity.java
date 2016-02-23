@@ -6,11 +6,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.gr.java_conf.shygoo.people_slots.R;
 import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.ChoiceDialogFragment;
+import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.NameInputDialogFragment;
 
 /**
  * メイン画面
  */
-public class MainActivity extends BaseActivity implements ChoiceDialogFragment.OnSelectListener {
+public class MainActivity extends BaseActivity implements ChoiceDialogFragment.OnSelectListener,
+        NameInputDialogFragment.OnFinishInputListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +42,10 @@ public class MainActivity extends BaseActivity implements ChoiceDialogFragment.O
                 //TODO
                 break;
             case R.string.input_method_ocr:
-
+                //TODO
                 break;
             case R.string.input_method_manual:
-                //TODO
+                requestInputName();
                 break;
             default:
                 // nop
@@ -51,8 +53,8 @@ public class MainActivity extends BaseActivity implements ChoiceDialogFragment.O
         }
     }
 
+    @Override
     public void onFinishInput(String name) {
-        onFinishOcr(new String[]{name});
     }
 
     public void onFinishOcr(String[] roster) {
@@ -91,5 +93,12 @@ public class MainActivity extends BaseActivity implements ChoiceDialogFragment.O
                 .setItems(R.array.input_methods)
                 .create()
                 .show(getFragmentManager(), "ask_input_method");
+    }
+
+    /**
+     * 名前の入力をさせる
+     */
+    private void requestInputName() {
+        new NameInputDialogFragment().show(getFragmentManager(), "request_input_name");
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
@@ -11,5 +11,7 @@
     <dimen name="slot_item_text">48dp</dimen>
     <dimen name="slot_item_face">96dp</dimen>
     <dimen name="slot_button_width">128dp</dimen>
+
+    <dimen name="name_input_margin">16dp</dimen>
 
 </resources>

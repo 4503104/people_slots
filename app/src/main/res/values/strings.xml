@@ -33,6 +33,8 @@
         <item>@string/input_method_manual</item>
     </string-array>
 
+    <string name="hint_name_input">Input name.</string>
+
     <string name="request_roster">Prepare the roster.</string>
 
     <string name="face">face</string>

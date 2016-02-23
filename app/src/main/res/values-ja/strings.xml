@@ -20,6 +20,8 @@
     <string name="input_method_ocr">名簿を撮影する</string>
     <string name="input_method_manual">手で入力</string>
 
+    <string name="hint_name_input">名前を入力してください。</string>
+
     <string name="request_roster">名簿を用意してください。</string>
 
     <string name="face">顔</string>
