@@ -23,9 +23,9 @@ import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.ChoiceDialogFragment;
 import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.NameInputDialogFragment;
 
 /**
- * メイン画面
+ * 初期画面
  */
-public class MainActivity extends BaseActivity implements ChoiceDialogFragment.OnSelectListener,
+public class StartActivity extends BaseActivity implements ChoiceDialogFragment.OnSelectListener,
         NameInputDialogFragment.OnFinishInputListener {
 
     private static final String LOG_TAG = OcrActivity.class.getSimpleName();
@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements ChoiceDialogFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         requestStoragePermission();
     }
