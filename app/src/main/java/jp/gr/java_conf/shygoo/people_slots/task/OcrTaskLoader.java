@@ -9,11 +9,10 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.provider.MediaStore.Images.Media;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -127,7 +126,7 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
     // 画像URIからBitmapを取得
     private Bitmap getBitmap() throws IOException {
 
-        // 生データではなく、グレイスケール化したコピーを返す
+        // 生データではなく、グレイスケール化したコピーを返す TODO: 意味ないかも？ ノイズ消す機能が欲しい
         Bitmap rawBmp = Media.getBitmap(getContext().getContentResolver(), imageUri);
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);// 彩度をゼロに
@@ -181,7 +180,7 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         List<String> list = new ArrayList<>();
         for (String str : arr) {
             str = str.trim();
-            if (StringUtils.isNotEmpty(str)) {
+            if (!TextUtils.isEmpty(str)) {
                 list.add(str);
             }
         }

@@ -12,9 +12,9 @@
     <string name="type_face">顔でスロット</string>
     <string name="type_name">名前でスロット</string>
 
-    <string name="ask_capture_method">写真の取り込み方法を選んでください。</string>
-    <string name="capture_method_fr">顔認識を使う</string>
-    <string name="capture_method_manual">手動で取り込む</string>
+    <string name="ask_capture_method">顔写真の取り込み方法を選んでください。</string>
+    <string name="capture_method_detect">自動検出</string>
+    <string name="capture_method_manual">手動で切り出す</string>
 
     <string name="ask_input_method">名前の取り込み方法を選んでください。</string>
     <string name="input_method_ocr">名簿を撮影する</string>
@@ -29,6 +29,9 @@
     <string name="request_crop_roster">取り込みたい範囲を選択してください。</string>
 
     <string name="progress_ocr">文字認識中です…</string>
+    <string name="progress_detect">顔を検出中です…</string>
+
+    <string name="message_preview">以上のデータでスロットを作りますか？</string>
 
     <string name="face">顔</string>
 

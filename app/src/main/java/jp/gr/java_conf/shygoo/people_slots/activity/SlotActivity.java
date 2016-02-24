@@ -1,12 +1,10 @@
 package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -14,20 +12,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.adapter.FaceSlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.adapter.NameSlotAdapter;
+import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
-public class SlotActivity extends BaseActivity {
+public class SlotActivity extends SlotBaseActivity {
 
     private static final String LOG_TAG = SlotActivity.class.getSimpleName();
-
-    // スロットの種類
-    public static final int SLOT_TYPE_NAME = 1;
-    public static final int SLOT_TYPE_FACE = 2;
-    public static final String EXTRA_SLOT_TYPE = "itemType";
-
-    // スロットに表示するデータ
-    public static final String EXTRA_ITEMS = "items";
 
     // 画面部品
     @Bind(R.id.slot_drum)
@@ -39,21 +31,36 @@ public class SlotActivity extends BaseActivity {
     @Bind(R.id.slot_stop)
     Button stopButton;
 
+    // TODO: スロットマシンのデザイン改善
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slot);
         ButterKnife.bind(this);
+        setAdapter();
+    }
 
-        // 種別に応じてスロットを初期化
+    /**
+     * ListAdapter設定
+     */
+    private void setAdapter() {
+
+        // スロットの種別に応じてAdapterを切り替える TODO: クラス分けるべき？
+        SlotAdapter adapter = null;
         Intent intent = getIntent();
-        switch (intent.getIntExtra(EXTRA_SLOT_TYPE, SLOT_TYPE_NAME)) {
+        int slotType = intent.getIntExtra(EXTRA_SLOT_TYPE, 0);
+        switch (slotType) {
+            case SLOT_TYPE_FACE:
+                List<Uri> faces = intent.getParcelableArrayListExtra(EXTRA_ITEMS);
+                adapter = new FaceSlotAdapter(this, faces);
+                break;
             case SLOT_TYPE_NAME:
-                List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
-                Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
-                slotDrum.setDrumAdapter(new NameSlotAdapter(this, items));
+                List<String> names = intent.getStringArrayListExtra(EXTRA_ITEMS);
+                adapter = new NameSlotAdapter(this, names);
                 break;
         }
+        slotDrum.setDrumAdapter(adapter);
     }
 
     /**
@@ -83,7 +90,7 @@ public class SlotActivity extends BaseActivity {
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
 
-        // TODO: 当選者を表示
+        // TODO: 当選者を表示 with ド派手な演出
         // TODO: 当選者を除外して再抽選
     }
 }

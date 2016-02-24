@@ -10,23 +10,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.io.File;
 import java.util.List;
 
 import jp.gr.java_conf.shygoo.people_slots.R;
 import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.ProgressDialogFragment;
-import jp.gr.java_conf.shygoo.people_slots.task.OcrTaskLoader;
+import jp.gr.java_conf.shygoo.people_slots.task.FaceDetectTaskLoader;
 
 /**
- * OCR（文字認識）機能
+ * 顔検出機能
  */
-public class OcrFragment extends BaseFragment {
+public class FaceDetectFragment extends BaseFragment {
 
-    private static final String LOG_TAG = OcrFragment.class.getSimpleName();
+    private static final String LOG_TAG = FaceDetectFragment.class.getSimpleName();
 
-    private static final int SELF_TASK_ID = 4;
+    private static final int SELF_TASK_ID = 3;
 
-    private static final String TAG_PROGRESS_DIALOG = "progressOCR";
+    private static final String TAG_PROGRESS_DIALOG = "progressFaceDetect";
 
     private static final String ARG_TARGET_IMAGE_URI = "targetImageUri";
 
@@ -36,8 +35,8 @@ public class OcrFragment extends BaseFragment {
      * @param targetImageUri 対象画像
      * @return
      */
-    public static OcrFragment newInstance(@NonNull Uri targetImageUri) {
-        OcrFragment fragment = new OcrFragment();
+    public static FaceDetectFragment newInstance(@NonNull Uri targetImageUri) {
+        FaceDetectFragment fragment = new FaceDetectFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_TARGET_IMAGE_URI, targetImageUri);
         fragment.setArguments(args);
@@ -53,7 +52,7 @@ public class OcrFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showProgress();
-        requestOcr();
+        requestDetect();
     }
 
     /**
@@ -61,36 +60,36 @@ public class OcrFragment extends BaseFragment {
      */
     private void showProgress() {
         new ProgressDialogFragment.Builder()
-                .setMessage(R.string.progress_ocr)
+                .setMessage(R.string.progress_detect)
                 .create()
                 .show(getFragmentManager(), TAG_PROGRESS_DIALOG);
     }
 
     /**
-     * OCR要求
+     * 顔検出要求
      */
-    private void requestOcr() {
+    private void requestDetect() {
 
         // バックグラウンドタスクを実行
         Bundle args = new Bundle(getArguments());
-        getLoaderManager().initLoader(SELF_TASK_ID, args, new LoaderManager.LoaderCallbacks<List<String>>() {
+        getLoaderManager().initLoader(SELF_TASK_ID, args, new LoaderManager.LoaderCallbacks<List<Uri>>() {
 
             @Override
-            public Loader<List<String>> onCreateLoader(int id, Bundle args) {
+            public Loader<List<Uri>> onCreateLoader(int id, Bundle args) {
                 Uri targetImageUri = args.getParcelable(ARG_TARGET_IMAGE_URI);
-                return new OcrTaskLoader(getActivity(), targetImageUri);
+                return new FaceDetectTaskLoader(getActivity(), targetImageUri);
             }
 
             @Override
-            public void onLoadFinished(Loader<List<String>> loader, List<String> data) {
+            public void onLoadFinished(Loader<List<Uri>> loader, List<Uri> data) {
 
                 // 結果通知
                 notifyResult(data);
             }
 
             @Override
-            public void onLoaderReset(Loader<List<String>> loader) {
-                Log.i(LOG_TAG, "ocr canceld.");
+            public void onLoaderReset(Loader<List<Uri>> loader) {
+                Log.i(LOG_TAG, "detect canceld.");
             }
         }).forceLoad();
     }
@@ -98,40 +97,27 @@ public class OcrFragment extends BaseFragment {
     /**
      * 結果通知
      *
-     * @param roster 画像から読み取った名前のリスト
+     * @param faces 画像から切り出した顔画像URIのリスト
      */
-    private void notifyResult(List<String> roster) {
+    private void notifyResult(List<Uri> faces) {
 
-        // ListenerがあればURIを渡す
-        OnFinishOcrListener listener = null;
+        // Listenerがあれば顔データを渡す
+        OnDetectListener listener = null;
         Activity activity = getActivity();
-        if (activity instanceof OnFinishOcrListener) {
-            listener = (OnFinishOcrListener) activity;
+        if (activity instanceof OnDetectListener) {
+            listener = (OnDetectListener) activity;
         } else {
             Fragment targetFragment = getTargetFragment();
-            if (targetFragment instanceof OnFinishOcrListener) {
-                listener = (OnFinishOcrListener) targetFragment;
+            if (targetFragment instanceof OnDetectListener) {
+                listener = (OnDetectListener) targetFragment;
             }
         }
         if (listener != null) {
-            listener.onFinishOcr(roster);
+            listener.onDetectFaces(faces);
         }
-
-        // 元画像はいらないので削除
-        deleteTargetImage();
 
         // ぐるぐる閉じる
         dissmissProgress();
-    }
-
-    /**
-     * 画像削除
-     */
-    private void deleteTargetImage() {
-        Uri targetImageUri = getArguments().getParcelable(ARG_TARGET_IMAGE_URI);
-        if (targetImageUri != null) {
-            new File(targetImageUri.getPath()).deleteOnExit();
-        }
     }
 
     /**
@@ -147,7 +133,7 @@ public class OcrFragment extends BaseFragment {
     /**
      * 結果通知用Listener
      */
-    public interface OnFinishOcrListener {
-        void onFinishOcr(List<String> roster);
+    public interface OnDetectListener {
+        void onDetectFaces(List<Uri> faces);
     }
 }

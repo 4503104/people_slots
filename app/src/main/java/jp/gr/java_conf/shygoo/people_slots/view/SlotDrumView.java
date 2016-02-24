@@ -167,5 +167,7 @@ public class SlotDrumView extends FrameLayout {
         spinning = false;
 
         // TODO: 抽選結果を返す
+        // TODO: 徐々に回転速度を落とす
+        // TODO: 停止タイミングに若干の揺らぎを持たせる（目押し防止）
     }
 }

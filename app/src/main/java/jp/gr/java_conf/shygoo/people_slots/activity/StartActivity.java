@@ -3,20 +3,25 @@ package jp.gr.java_conf.shygoo.people_slots.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.annotation.StringRes;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.fragment.FaceDetectFragment;
 import jp.gr.java_conf.shygoo.people_slots.fragment.ImageCaptureFragment;
 import jp.gr.java_conf.shygoo.people_slots.fragment.ImageCropFragment;
 import jp.gr.java_conf.shygoo.people_slots.fragment.OcrFragment;
@@ -25,14 +30,40 @@ import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.NameInputDialogFragme
 
 /**
  * 初期画面
+ * TODO: 処理多過ぎ。クラス分けたい。
  */
-public class StartActivity extends BaseActivity implements ChoiceDialogFragment.OnSelectListener,
-        ImageCaptureFragment.OnCaptureListener, NameInputDialogFragment.OnFinishInputListener,
-        ImageCropFragment.OnCropListener, OcrFragment.OnFinishOcrListener {
+public class StartActivity extends BaseActivity
+        implements ChoiceDialogFragment.OnSelectListener,
+        ImageCaptureFragment.OnCaptureListener,
+        ImageCropFragment.OnCropListener,
+        FaceDetectFragment.OnDetectListener,
+        OcrFragment.OnFinishOcrListener,
+        NameInputDialogFragment.OnFinishInputListener {
 
     private static final String LOG_TAG = StartActivity.class.getSimpleName();
 
-    private static final int REQUEST_CODE_PERMISSION = 1;
+    private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
+
+    // フラグメント呼び出し用
+    private static final String TAG_ASK_SLOT_TYPE = "askSlotType";
+    private static final String TAG_ASK_CAPTURE_METHOD = "askCaptureMethod";
+    private static final String TAG_ASK_INPUT_METHOD = "askInputMethod";
+    private static final String TAG_REQUEST_GROUP_PHOTO = "requestGroupPhoto";
+    private static final String TAG_REQUEST_PORTRAIT_PHOTO = "requestPortraitPhoto";
+    private static final String TAG_REQUEST_ROSTER_PHOTO = "requestRosterPhoto";
+    private static final String TAG_REQUEST_DETECT_FACES = "requestDetectFaces";
+    private static final String TAG_REQUEST_CROP_FACE = "requestCropFace";
+    private static final String TAG_REQUEST_CROP_ROSTER = "requestCropRoster";
+    private static final String TAG_REQUEST_OCR = "requestOcr";
+    private static final String TAG_REQUEST_INPUT_NAME = "requestInputName";
+
+    @StringDef({TAG_REQUEST_GROUP_PHOTO, TAG_REQUEST_PORTRAIT_PHOTO, TAG_REQUEST_ROSTER_PHOTO})
+    public @interface RequestImageTag {
+    }
+
+    @StringDef({TAG_REQUEST_CROP_FACE, TAG_REQUEST_CROP_ROSTER})
+    public @interface RequestCropTag {
+    }
 
     /**
      * 初期処理
@@ -55,7 +86,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSION);
     }
 
     /**
@@ -71,7 +102,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
         switch (requestCode) {
 
             // ストレージ書き込み許可がなければ使わせない
-            case REQUEST_CODE_PERMISSION:
+            case REQUEST_CODE_STORAGE_PERMISSION:
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.error_storage_permission, Toast.LENGTH_SHORT).show();
                     finish();
@@ -83,12 +114,12 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
      * スロットの種類を尋ねる
      */
     @OnClick(R.id.create_slot)
-    public void askType() {
+    public void askSlotType() {
         new ChoiceDialogFragment.Builder()
                 .setTitle(R.string.ask_type)
                 .setItems(R.array.slot_types)
                 .create()
-                .show(getFragmentManager(), "ask_type");
+                .show(getFragmentManager(), TAG_ASK_SLOT_TYPE);
     }
 
     /**
@@ -99,7 +130,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
                 .setTitle(R.string.ask_capture_method)
                 .setItems(R.array.capture_methods)
                 .create()
-                .show(getFragmentManager(), "ask_capture_method");
+                .show(getFragmentManager(), TAG_ASK_CAPTURE_METHOD);
     }
 
     /**
@@ -110,7 +141,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
                 .setTitle(R.string.ask_input_method)
                 .setItems(R.array.input_methods)
                 .create()
-                .show(getFragmentManager(), "ask_input_method");
+                .show(getFragmentManager(), TAG_ASK_INPUT_METHOD);
     }
 
     /**
@@ -127,14 +158,14 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
             case R.string.type_name:
                 askInputMethod();
                 break;
-            case R.string.capture_method_fr:
-                requestFrImage();
+            case R.string.capture_method_detect:
+                requestGroupPhoto();
                 break;
             case R.string.capture_method_manual:
-                requestFaceImage();
+                requestPortraitPhoto();
                 break;
             case R.string.input_method_ocr:
-                requestOcrImage();
+                requestRosterPhoto();
                 break;
             case R.string.input_method_manual:
                 requestInputName();
@@ -143,24 +174,24 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
     }
 
     /**
-     * 顔認識用画像（写真）の要求
+     * 顔検出用画像（集合写真）の要求
      */
-    private void requestFrImage() {
-        requestImage(R.string.request_group_photo, "request_group_photo");
+    private void requestGroupPhoto() {
+        requestImage(R.string.request_group_photo, TAG_REQUEST_GROUP_PHOTO);
     }
 
     /**
-     * 顔画像（単独）の要求
+     * 顔画像（肖像写真）の要求
      */
-    private void requestFaceImage() {
-        requestImage(R.string.request_portrait_photo, "request_portrait_photo");
+    private void requestPortraitPhoto() {
+        requestImage(R.string.request_portrait_photo, TAG_REQUEST_PORTRAIT_PHOTO);
     }
 
     /**
-     * OCR用画像（名簿）の要求
+     * OCR用画像（名簿写真）の要求
      */
-    private void requestOcrImage() {
-        requestImage(R.string.request_roster_photo, "request_roster_photo");
+    private void requestRosterPhoto() {
+        requestImage(R.string.request_roster_photo, TAG_REQUEST_ROSTER_PHOTO);
     }
 
     /**
@@ -169,7 +200,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
      * @param messageId
      * @param tag
      */
-    private void requestImage(@StringRes int messageId, @NonNull String tag) {
+    private void requestImage(@StringRes int messageId, @RequestImageTag String tag) {
         Fragment fragment = ImageCaptureFragment.newInstance(messageId);
         getFragmentManager().beginTransaction().add(fragment, tag).commit();
     }
@@ -195,31 +226,51 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
 
             // 次の処理を開始
             switch (tag) {
-                case "request_group_photo":
-                    //TODO
+                case TAG_REQUEST_GROUP_PHOTO:
+                    requestDetectFaces(imageUri);
                     break;
-                case "request_portrait_photo":
+                case TAG_REQUEST_PORTRAIT_PHOTO:
                     requestCropFace(imageUri);
                     break;
-                case "request_roster_photo":
-                    requestCropOcr(imageUri);
+                case TAG_REQUEST_ROSTER_PHOTO:
+                    requestCropRoster(imageUri);
                     break;
             }
         }
     }
 
     /**
+     * 顔検出の要求
+     *
+     * @param targetImageUri
+     */
+    private void requestDetectFaces(Uri targetImageUri) {
+        Fragment fragment = FaceDetectFragment.newInstance(targetImageUri);
+        getFragmentManager().beginTransaction().add(fragment, TAG_REQUEST_DETECT_FACES).commit();
+    }
+
+    /**
+     * 顔検出完了
+     *
+     * @param faces
+     */
+    @Override
+    public void onDetectFaces(List<Uri> faces) {
+        startFacePreview(faces);
+    }
+
+    /**
      * 顔画像（単独）の切り出し要求
      */
     private void requestCropFace(Uri targetImageUri) {
-        requestCrop(targetImageUri, R.string.request_crop_portrait, "request_crop_portrait");
+        requestCrop(targetImageUri, R.string.request_crop_portrait, TAG_REQUEST_CROP_FACE);
     }
 
     /**
      * OCR用画像（名簿）の切り出し要求
      */
-    private void requestCropOcr(Uri targetImageUri) {
-        requestCrop(targetImageUri, R.string.request_crop_roster, "request_crop_roster");
+    private void requestCropRoster(Uri targetImageUri) {
+        requestCrop(targetImageUri, R.string.request_crop_roster, TAG_REQUEST_CROP_ROSTER);
     }
 
     /**
@@ -241,7 +292,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
      * @param croppedImageUri
      */
     @Override
-    public void onCropImage(String tag, Uri croppedImageUri) {
+    public void onCropImage(@RequestCropTag String tag, Uri croppedImageUri) {
         if (croppedImageUri == null) {
 
             // 失敗
@@ -255,14 +306,24 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
 
             // 次の処理を開始
             switch (tag) {
-                case "request_crop_portrait":
-                    //TODO
+                case TAG_REQUEST_CROP_FACE:
+                    startFacePreview(Collections.singletonList(croppedImageUri));
                     break;
-                case "request_crop_roster":
+                case TAG_REQUEST_CROP_ROSTER:
                     requestOcr(croppedImageUri);
                     break;
             }
         }
+    }
+
+    /**
+     * 顔プレビュー開始
+     */
+    private void startFacePreview(List<Uri> faces) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra(PreviewActivity.EXTRA_SLOT_TYPE, PreviewActivity.SLOT_TYPE_FACE);
+        intent.putParcelableArrayListExtra(PreviewActivity.EXTRA_ITEMS, new ArrayList<>(faces));
+        startActivity(intent);
     }
 
     /**
@@ -273,7 +334,7 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
     private void requestOcr(Uri targetImageUri) {
         OcrFragment.newInstance(targetImageUri);
         Fragment fragment = OcrFragment.newInstance(targetImageUri);
-        getFragmentManager().beginTransaction().add(fragment, "requestOcr").commit();
+        getFragmentManager().beginTransaction().add(fragment, TAG_REQUEST_OCR).commit();
     }
 
     /**
@@ -283,15 +344,14 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
      */
     @Override
     public void onFinishOcr(List<String> roster) {
-        //TODO
-        Log.d(LOG_TAG, roster.toString());
+        startNamePreview(roster);
     }
 
     /**
      * 名前入力要求
      */
     private void requestInputName() {
-        new NameInputDialogFragment().show(getFragmentManager(), "request_input_name");
+        new NameInputDialogFragment().show(getFragmentManager(), TAG_REQUEST_INPUT_NAME);
     }
 
     /**
@@ -301,10 +361,16 @@ public class StartActivity extends BaseActivity implements ChoiceDialogFragment.
      */
     @Override
     public void onFinishInput(String name) {
-        //TODO
+        startNamePreview(Collections.singletonList(name));
     }
 
-    public void onFinishOcr(String[] roster) {
-        //TODO
+    /**
+     * 名前プレビュー開始
+     */
+    private void startNamePreview(List<String> names) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra(PreviewActivity.EXTRA_SLOT_TYPE, PreviewActivity.SLOT_TYPE_NAME);
+        intent.putStringArrayListExtra(PreviewActivity.EXTRA_ITEMS, new ArrayList<>(names));
+        startActivity(intent);
     }
 }

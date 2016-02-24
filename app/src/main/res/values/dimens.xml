@@ -12,6 +12,9 @@
     <dimen name="slot_item_face">96dp</dimen>
     <dimen name="slot_button_width">128dp</dimen>
 
+    <dimen name="primay_button_height">72dp</dimen>
+    <dimen name="primay_button_text">24sp</dimen>
+
     <dimen name="name_input_margin">16dp</dimen>
 
 </resources>

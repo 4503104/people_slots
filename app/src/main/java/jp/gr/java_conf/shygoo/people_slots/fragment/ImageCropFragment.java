@@ -32,7 +32,7 @@ public class ImageCropFragment extends BaseFragment {
      * インスタンス生成
      *
      * @param targetImageUri 対象の画像
-     * @param messageId ユーザに表示されるメッセージ
+     * @param messageId      ユーザに表示されるメッセージ
      * @return
      */
     public static ImageCropFragment newInstance(@NonNull Uri targetImageUri, @StringRes int messageId) {
@@ -78,6 +78,7 @@ public class ImageCropFragment extends BaseFragment {
      * @return 日時をベースにした新規画像URI
      */
     private Uri generateOutputUri() {
+        // TODO: 保存場所ここでいいの？
         File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         CharSequence date = DateFormat.format("yyyyMMdd_kkmmss", Calendar.getInstance());
         String filename = String.format("cropped_%s", date);
@@ -103,7 +104,7 @@ public class ImageCropFragment extends BaseFragment {
                 // 失敗
                 String errorMessage;
                 if (resultCode == Crop.RESULT_ERROR) {
-                    errorMessage= Crop.getError(data).getMessage();
+                    errorMessage = Crop.getError(data).getMessage();
                 } else {
                     errorMessage = "Unknown cropping error!";
                 }

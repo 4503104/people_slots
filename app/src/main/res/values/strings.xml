@@ -18,16 +18,16 @@
     </string-array>
 
     <string name="ask_capture_method">Select face capturing method.</string>
-    <string name="capture_method_fr">Facial Recognition</string>
-    <string name="capture_method_manual">Manual</string>
+    <string name="capture_method_detect">Auto Detect</string>
+    <string name="capture_method_manual">Manual Crop</string>
     <string-array name="capture_methods">
-        <item>@string/capture_method_fr</item>
+        <item>@string/capture_method_detect</item>
         <item>@string/capture_method_manual</item>
     </string-array>
 
     <string name="ask_input_method">Select name input method.</string>
     <string name="input_method_ocr">Optical Character Recognition</string>
-    <string name="input_method_manual">Manual</string>
+    <string name="input_method_manual">Manual Input</string>
     <string-array name="input_methods">
         <item>@string/input_method_ocr</item>
         <item>@string/input_method_manual</item>
@@ -42,6 +42,9 @@
     <string name="request_crop_roster">Crop target texts.</string>
 
     <string name="progress_ocr">OCR running…</string>
+    <string name="progress_detect">Face detecting…</string>
+
+    <string name="message_preview">Do you create slot from these data?</string>
 
     <string name="face">face</string>
 

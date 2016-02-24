@@ -21,12 +21,20 @@
         </activity>
 
         <activity
+            android:name=".activity.PreviewActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.SlotActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="face" />
 
     </application>
 
