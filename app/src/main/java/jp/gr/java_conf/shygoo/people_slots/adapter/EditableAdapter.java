@@ -21,7 +21,7 @@ public abstract class EditableAdapter<T> extends BaseAdapter {
     /**
      * コンストラクタ
      *
-     * @param items
+     * @param items 要素
      */
     public EditableAdapter(Collection<? extends T> items) {
 
@@ -44,28 +44,44 @@ public abstract class EditableAdapter<T> extends BaseAdapter {
         return position;
     }
 
+    /**
+     * 要素追加（単独）
+     *
+     * @param item 追加する要素
+     */
     public void addItem(T item) {
         items.add(item);
         notifyDataSetChanged();
     }
 
-    public void addItems(Collection<T> items) {
-        items.addAll(items);
+    /**
+     * 要素追加（複数）
+     *
+     * @param items 追加する要素
+     */
+    public void addItems(Collection<? extends T> items) {
+        this.items.addAll(items);
         notifyDataSetChanged();
     }
 
+    /**
+     * 要素変更
+     *
+     * @param index 要素の位置
+     * @param item 差し替える要素
+     */
     public void changeItem(int index, T item) {
         items.set(index, item);
         notifyDataSetChanged();
     }
 
+    /**
+     * 要素削除
+     *
+     * @param index 要素の位置
+     */
     public void removeItem(int index) {
         items.remove(index);
-        notifyDataSetChanged();
-    }
-
-    public void clearItems() {
-        items.clear();
         notifyDataSetChanged();
     }
 }

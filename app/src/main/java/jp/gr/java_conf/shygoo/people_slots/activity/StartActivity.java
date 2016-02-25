@@ -24,17 +24,12 @@ import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.ChoiceDialogFragment;
  */
 public class StartActivity extends BaseActivity {
 
-    // 権限取得用
+    // permission取得用
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
 
     // フラグメント呼び出し用
     private static final String TAG_ASK_SLOT_TYPE = "askSlotType";
 
-    /**
-     * 初期処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +51,6 @@ public class StartActivity extends BaseActivity {
 
     /**
      * 許可要求の結果を受け取る
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -88,9 +79,7 @@ public class StartActivity extends BaseActivity {
     }
 
     /**
-     * （ダイアログの）選択結果を受け取る
-     *
-     * @param itemId 選択肢のID
+     * 選択結果（スロットの種類）を受け取る
      */
     @Override
     public void onSelectItem(int itemId) {
@@ -108,8 +97,6 @@ public class StartActivity extends BaseActivity {
 
     /**
      * 顔検出完了
-     *
-     * @param faces
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
@@ -121,10 +108,7 @@ public class StartActivity extends BaseActivity {
     }
 
     /**
-     * 画像切り出し完了
-     *
-     * @param tag
-     * @param croppedImageUri
+     * 画像（顔）切り出し完了
      */
     @Override
     public void onCropImage(String tag, Uri croppedImageUri) {
@@ -150,9 +134,7 @@ public class StartActivity extends BaseActivity {
     }
 
     /**
-     * OCR完了
-     *
-     * @param roster
+     * 名簿取り込み完了
      */
     @Override
     public void onFinishOcr(List<String> roster) {
@@ -165,8 +147,6 @@ public class StartActivity extends BaseActivity {
 
     /**
      * 名前入力完了
-     *
-     * @param name
      */
     @Override
     public void onFinishInput(String name) {

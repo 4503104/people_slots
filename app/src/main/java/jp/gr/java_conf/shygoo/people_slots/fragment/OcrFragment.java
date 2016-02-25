@@ -34,7 +34,7 @@ public class OcrFragment extends BaseFragment {
      * インスタンス生成
      *
      * @param targetImageUri 対象画像
-     * @return
+     * @return 新規Fragment
      */
     public static OcrFragment newInstance(@NonNull Uri targetImageUri) {
         OcrFragment fragment = new OcrFragment();
@@ -44,11 +44,6 @@ public class OcrFragment extends BaseFragment {
         return fragment;
     }
 
-    /**
-     * 生成時の処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +143,12 @@ public class OcrFragment extends BaseFragment {
      * 結果通知用Listener
      */
     public interface OnFinishOcrListener {
+
+        /**
+         * OCR完了イベント
+         *
+         * @param roster 読み取った文字列（名簿）
+         */
         void onFinishOcr(List<String> roster);
     }
 }

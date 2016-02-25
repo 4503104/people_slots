@@ -36,8 +36,8 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @param imageUri
+     * @param context コンテキスト
+     * @param imageUri 対象画像
      */
     public OcrTaskLoader(Context context, Uri imageUri) {
         super(context);
@@ -75,14 +75,18 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         return result;
     }
 
-    // OCR言語取得
+    /**
+     * OCR言語取得
+     */
     private String getTrainedDataLang() {
 
         // TODO: ユーザが読み取り言語を選べるようにする
         return "eng";
     }
 
-    // OCRデータを準備
+    /**
+     * OCRデータを準備
+     */
     private void prepareTrainedData(File dataDir, String dataLang) throws IOException {
 
         // ファイルがあれば何もしない
@@ -97,6 +101,7 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         OutputStream out = null;
         try {
             if (!dataDir.exists()) {
+                // noinspection ResultOfMethodCallIgnored
                 dataDir.mkdirs();
             }
             String srcFilename = TRAINED_DATA_FILE_DIRNAME + File.separator + filename;
@@ -112,18 +117,22 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
                 try {
                     in.close();
                 } catch (IOException e) {
+                    // nop
                 }
             }
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e) {
+                    // nop
                 }
             }
         }
     }
 
-    // 画像URIからBitmapを取得
+    /**
+     * 画像URIからBitmapを取得
+     */
     private Bitmap getBitmap() throws IOException {
 
         // 生データではなく、グレイスケール化したコピーを返す TODO: 意味ないかも？ ノイズ消す機能が欲しい
@@ -142,7 +151,9 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         return grayBmp;
     }
 
-    // 画像からテキストを抽出
+    /**
+     * 画像からテキストを抽出
+     */
     private String readTextFromImage(Bitmap bitmap, File appDir, String dataLang) {
 
         // OCRの準備
@@ -160,7 +171,9 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         return text;
     }
 
-    // 文字列を分割
+    /**
+     * 文字列を分割
+     */
     private List<String> splitText(String rawText) {
 
         // TODO: ユーザが区切り文字を選べるようにする
@@ -175,7 +188,9 @@ public class OcrTaskLoader extends AsyncTaskLoader<List<String>> {
         return tokens;
     }
 
-    // 空要素を排除
+    /**
+     * 空要素を排除
+     */
     private List<String> filterEmpty(String[] arr) {
         List<String> list = new ArrayList<>();
         for (String str : arr) {

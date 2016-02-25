@@ -2,12 +2,16 @@
 
     <string name="app_name">Who is on duty ?</string>
 
+    <string name="label_start">Prepare</string>
+    <string name="label_preview">Preview</string>
+    <string name="label_slot">Have fun!</string>
+
+    <string name="create_slot">Create new slot</string>
+
+    <string name="finish_edit">Use these data</string>
+
     <string name="start">START</string>
     <string name="stop">STOP</string>
-    <string name="retry">RETRY</string>
-
-    <!-- TODO: 英語圏では"slot machineと書くべき？" -->
-    <string name="create_slot">Create new slot</string>
 
     <string name="ask_type">Select slot-type.</string>
     <string name="type_face">Face slot</string>
@@ -43,8 +47,6 @@
 
     <string name="progress_ocr">OCR running…</string>
     <string name="progress_detect">Face detecting…</string>
-
-    <string name="message_preview">Do you create slot from these data?</string>
 
     <string name="face">face</string>
 

@@ -33,7 +33,7 @@ public class ImageCropFragment extends BaseFragment {
      *
      * @param targetImageUri 対象の画像
      * @param messageId      ユーザに表示されるメッセージ
-     * @return
+     * @return 新規Fragment
      */
     public static ImageCropFragment newInstance(@NonNull Uri targetImageUri, @StringRes int messageId) {
         ImageCropFragment fragment = new ImageCropFragment();
@@ -44,11 +44,6 @@ public class ImageCropFragment extends BaseFragment {
         return fragment;
     }
 
-    /**
-     * 生成時の処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +82,6 @@ public class ImageCropFragment extends BaseFragment {
 
     /**
      * 結果受信
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -104,6 +95,7 @@ public class ImageCropFragment extends BaseFragment {
                 // 失敗
                 String errorMessage;
                 if (resultCode == Crop.RESULT_ERROR) {
+                    // noinspection ThrowableResultOfMethodCallIgnored
                     errorMessage = Crop.getError(data).getMessage();
                 } else {
                     errorMessage = "Unknown cropping error!";
@@ -143,6 +135,13 @@ public class ImageCropFragment extends BaseFragment {
      * 結果通知用Listener
      */
     public interface OnCropListener {
+
+        /**
+         * 画像切り出しイベント
+         *
+         * @param tag Fragment識別子
+         * @param croppedImageUri 切り出した画像
+         */
         void onCropImage(String tag, Uri croppedImageUri);
     }
 }

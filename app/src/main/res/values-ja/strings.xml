@@ -2,11 +2,16 @@
 
     <string name="app_name">今日の当番だぁれ？</string>
 
-    <string name="start">START</string>
-    <string name="stop">STOP</string>
-    <string name="retry">やり直し</string>
+    <string name="label_start">準備</string>
+    <string name="label_preview">プレビュー</string>
+    <string name="label_slot">楽しんでね！</string>
 
     <string name="create_slot">新しいスロットを作る</string>
+
+    <string name="finish_edit">このデータでOK！</string>
+
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
 
     <string name="ask_type">スロットの種類を選んでください。</string>
     <string name="type_face">顔でスロット</string>
@@ -30,8 +35,6 @@
 
     <string name="progress_ocr">文字認識中です…</string>
     <string name="progress_detect">顔を検出中です…</string>
-
-    <string name="message_preview">以上のデータでスロットを作りますか？</string>
 
     <string name="face">顔</string>
 

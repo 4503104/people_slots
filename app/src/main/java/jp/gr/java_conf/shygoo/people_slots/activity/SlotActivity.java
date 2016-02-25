@@ -13,11 +13,13 @@ import jp.gr.java_conf.shygoo.people_slots.adapter.NameSlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
+/**
+ * スロット画面
+ */
 public class SlotActivity extends BaseActivity {
 
-    private static final String LOG_TAG = SlotActivity.class.getSimpleName();
+    // TODO: スロットマシンのデザイン改善
 
-    // 画面部品
     @Bind(R.id.slot_drum)
     SlotDrumView slotDrum;
 
@@ -26,8 +28,6 @@ public class SlotActivity extends BaseActivity {
 
     @Bind(R.id.slot_stop)
     Button stopButton;
-
-    // TODO: スロットマシンのデザイン改善
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

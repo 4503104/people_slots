@@ -3,6 +3,7 @@ package jp.gr.java_conf.shygoo.people_slots.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -21,6 +22,7 @@ import jp.gr.java_conf.shygoo.people_slots.R;
 import jp.gr.java_conf.shygoo.people_slots.adapter.EditableAdapter;
 import jp.gr.java_conf.shygoo.people_slots.adapter.FacePreviewAdapter;
 import jp.gr.java_conf.shygoo.people_slots.adapter.NamePreviewAdapter;
+import jp.gr.java_conf.shygoo.people_slots.fragment.dialog.NameInputDialogFragment;
 import jp.gr.java_conf.shygoo.people_slots.swipedismiss.SwipeDismissListViewTouchListener;
 
 /**
@@ -28,43 +30,65 @@ import jp.gr.java_conf.shygoo.people_slots.swipedismiss.SwipeDismissListViewTouc
  */
 public class PreviewActivity extends BaseActivity {
 
-    @Bind(R.id.preview_ok)
-    Button okButton;
+    // TODO: 要素追加時のスクロール制御
+    // TODO: 画面閉じる時に画像データ破棄
+
+    // フラグメント呼び出し用
+    private static final String TAG_REQUEST_EDIT_NAME = "requestEditName";
+
+    /** アイテム位置：なし */
+    private static final int ITEM_POSITION_NOTHING = -1;
+
+    @State
+    int changingItemPosition = ITEM_POSITION_NOTHING;
+
+    @State
+    ArrayList<Uri> savedFaces;
+
+    @State
+    ArrayList<String> savedNames;
+
+    @Bind(R.id.finish_edit)
+    Button finishEditButton;
 
     @Bind(R.id.preview_list)
     ListView listView;
 
-    @State
-    ArrayList savedNames;
-
-    @State
-    ArrayList savedFaces;
-
+    // Adapterはどちらか一方のみ使う
     private FacePreviewAdapter faceAdapter;
     private NamePreviewAdapter nameAdapter;
+
+    // でもそれだと使いにくいので、ショートカット用の変数も用意
     private EditableAdapter adapterAlias;
 
-    // TODO: 差し替え機能
-    // TODO: 画面閉じる時に画像データ破棄
-
-    /**
-     * 初期処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
         ButterKnife.bind(this);
+        initListView();
+    }
+
+    /**
+     * 初期設定
+     */
+    private void initListView() {
+        setFooter();
         setAdapter();
         setListeners();
     }
 
     /**
+     * フッタ設定
+     */
+    private void setFooter() {
+        View footer = LayoutInflater.from(this).inflate(R.layout.slot_item_footer, listView, false);
+        listView.addFooterView(footer);
+    }
+
+    /**
      * ListAdapter設定
      */
-    @SuppressWarnings("unchecked")
     private void setAdapter() {
 
         // スロットの種別に応じてAdapterを切り替える
@@ -102,7 +126,7 @@ public class PreviewActivity extends BaseActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO
+                startChange(position);
             }
         });
 
@@ -121,7 +145,7 @@ public class PreviewActivity extends BaseActivity {
                             adapterAlias.removeItem(position);
                         }
                         if (adapterAlias.getCount() == 0) {
-                            okButton.setEnabled(false);
+                            finishEditButton.setEnabled(false);
                         }
                     }
                 }
@@ -173,9 +197,12 @@ public class PreviewActivity extends BaseActivity {
      * アイテム追加開始
      */
     @OnClick(R.id.preview_add_item)
-    public void askAddMethod() {
+    public void startAdd() {
 
-        // 手段を訊く
+        // 対象アイテムなし
+        changingItemPosition = ITEM_POSITION_NOTHING;
+
+        // アイテム追加の手段を訊く
         switch (slotType) {
             case SLOT_TYPE_FACE:
                 askCaptureMethod();
@@ -188,41 +215,49 @@ public class PreviewActivity extends BaseActivity {
 
     /**
      * アイテム差し替え開始
+     *
+     * @param position アイテムの位置
      */
-    private void askChangeMethod(int position) {
+    private void startChange(int position) {
 
-        // 手段は固定
+        // 対象アイテムを覚えておく
+        changingItemPosition = position;
+
+        // アイテム差し替えの手段は固定
         switch (slotType) {
             case SLOT_TYPE_FACE:
                 requestPortraitPhoto();
                 break;
             case SLOT_TYPE_NAME:
-                requestInputName();
+                requestEditName(nameAdapter.getItem(position));
                 break;
         }
     }
 
     /**
-     * 顔検出完了
+     * アイテム変更中か判定
      *
-     * @param faces 検出された顔
+     * @return 変更対象アイテムがあればtrue
+     */
+    private boolean isChanging() {
+        return changingItemPosition != ITEM_POSITION_NOTHING;
+    }
+
+    /**
+     * 顔検出完了
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
         if (faces.isEmpty()) {
             Toast.makeText(this, R.string.error_detect_face, Toast.LENGTH_SHORT).show();
         } else {
-            //TODO
             faceAdapter.addItems(faces);
-            okButton.setEnabled(true);
+            finishEditButton.setEnabled(true);
         }
     }
 
     /**
-     * 画像切り出し完了
-     *
-     * @param tag             Fragmentの識別子
-     * @param croppedImageUri 切り出した画像
+     * 画像（顔）切り出し完了
      */
     @Override
     public void onCropImage(String tag, Uri croppedImageUri) {
@@ -230,9 +265,13 @@ public class PreviewActivity extends BaseActivity {
             if (croppedImageUri == null) {
                 Toast.makeText(this, R.string.error_crop_image, Toast.LENGTH_SHORT).show();
             } else {
-                //TODO
-                faceAdapter.addItem(croppedImageUri);
-                okButton.setEnabled(true);
+                if (isChanging()) {
+                    faceAdapter.changeItem(changingItemPosition, croppedImageUri);
+                    changingItemPosition = ITEM_POSITION_NOTHING;
+                } else {
+                    faceAdapter.addItem(croppedImageUri);
+                    finishEditButton.setEnabled(true);
+                }
             }
         } else {
             super.onCropImage(tag, croppedImageUri);
@@ -240,37 +279,48 @@ public class PreviewActivity extends BaseActivity {
     }
 
     /**
-     * OCR完了
-     *
-     * @param roster 名簿
+     * 名簿取り込み完了
      */
     @Override
     public void onFinishOcr(List<String> roster) {
         if (roster.isEmpty()) {
             Toast.makeText(this, R.string.error_ocr, Toast.LENGTH_SHORT).show();
         } else {
-            //TODO
             nameAdapter.addItems(roster);
-            okButton.setEnabled(true);
+            finishEditButton.setEnabled(true);
         }
     }
 
     /**
-     * 名前入力完了
+     * 名前編集要求
      *
-     * @param name 名前
+     * @param currentName 現在の名前
+     */
+    private void requestEditName(String currentName) {
+        new NameInputDialogFragment.Builder()
+                .setDefaultValue(currentName)
+                .create()
+                .show(getFragmentManager(), TAG_REQUEST_EDIT_NAME);
+    }
+
+    /**
+     * 名前入力or編集完了
      */
     @Override
     public void onFinishInput(String name) {
-        //TODO
-        nameAdapter.addItem(name);
-        okButton.setEnabled(true);
+        if (isChanging()) {
+            nameAdapter.changeItem(changingItemPosition, name);
+            changingItemPosition = ITEM_POSITION_NOTHING;
+        } else {
+            nameAdapter.addItem(name);
+            finishEditButton.setEnabled(true);
+        }
     }
 
     /**
      * スロット開始
      */
-    @OnClick(R.id.preview_ok)
+    @OnClick(R.id.finish_edit)
     public void startSlot() {
 
         // スロット種別と編集済みアイテム情報を渡す

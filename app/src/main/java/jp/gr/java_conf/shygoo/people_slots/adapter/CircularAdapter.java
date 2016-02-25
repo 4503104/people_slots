@@ -17,7 +17,7 @@ public abstract class CircularAdapter<T> extends BaseAdapter {
     /**
      * コンストラクタ
      *
-     * @param items
+     * @param items 要素
      */
     public CircularAdapter(Collection<? extends T> items) {
         this.items = new ArrayList<>(items);
@@ -42,7 +42,7 @@ public abstract class CircularAdapter<T> extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public T getItem(int position) {
 
         // List内の要素を繰り返し利用する
         return items.get(position % items.size());

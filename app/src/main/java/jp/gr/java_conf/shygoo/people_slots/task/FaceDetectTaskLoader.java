@@ -36,8 +36,8 @@ public class FaceDetectTaskLoader extends AsyncTaskLoader<List<Uri>> {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @param targetImageUri
+     * @param context コンテキスト
+     * @param targetImageUri 対象画像
      */
     public FaceDetectTaskLoader(Context context, Uri targetImageUri) {
         super(context);
@@ -125,8 +125,8 @@ public class FaceDetectTaskLoader extends AsyncTaskLoader<List<Uri>> {
     /**
      * 顔画像の保存
      *
-     * @param faceBmp
-     * @param outputFile
+     * @param faceBmp 顔画像
+     * @param outputFile 保存先
      * @return 保存したファイルのUri
      * @throws FileNotFoundException
      */
@@ -143,6 +143,7 @@ public class FaceDetectTaskLoader extends AsyncTaskLoader<List<Uri>> {
                 try {
                     out.close();
                 } catch (IOException e) {
+                    // nop
                 }
             }
         }

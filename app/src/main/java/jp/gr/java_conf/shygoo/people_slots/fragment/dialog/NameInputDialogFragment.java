@@ -36,11 +36,7 @@ public class NameInputDialogFragment extends DialogFragment {
         builder.setView(customView);
 
         // デフォルト値が指定されていればセット
-        String defaultValue = "";
-        Bundle args = getArguments();
-        if (args != null) {
-            defaultValue = args.getString(ARG_DEFAULT_VALUE, "");
-        }
+        String defaultValue = getArguments().getString(ARG_DEFAULT_VALUE, "");
         EditText nameInput = (EditText) customView.findViewById(R.id.name_input);
         nameInput.setText(defaultValue);
 
@@ -99,8 +95,51 @@ public class NameInputDialogFragment extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * 専用Builder
+     */
+    public static class Builder {
+
+        private Bundle args;
+
+        public Builder() {
+            args = new Bundle();
+        }
+
+        /**
+         * デフォルト値（オプション）を設定
+         *
+         * @param defaultValue デフォルト値
+         * @return Builder自身
+         */
+        public Builder setDefaultValue(String defaultValue) {
+            args.putString(ARG_DEFAULT_VALUE, defaultValue);
+            return this;
+        }
+
+        /**
+         * Fragment生成
+         *
+         * @return Fragment
+         */
+        public NameInputDialogFragment create() {
+            NameInputDialogFragment fragment = new NameInputDialogFragment();
+            fragment.setArguments(args);
+            return fragment;
+        }
+    }
+
+    /**
+     * 結果通知用Listener
+     */
     public interface OnFinishInputListener {
-        void onFinishInput(String text);
+
+        /**
+         * 入力完了イベント
+         *
+         * @param name 入力値（名前）
+         */
+        void onFinishInput(String name);
     }
 }
 

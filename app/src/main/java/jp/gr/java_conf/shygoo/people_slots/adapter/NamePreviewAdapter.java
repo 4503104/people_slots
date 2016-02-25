@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import java.util.Collection;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jp.gr.java_conf.shygoo.people_slots.R;
 
 /**
- * 名前をPreviewする為のAdapter
+ * 名前をPreviewする為のEditableAdapter
  */
 public class NamePreviewAdapter extends EditableAdapter<String> {
 
@@ -20,7 +22,7 @@ public class NamePreviewAdapter extends EditableAdapter<String> {
     /**
      * コンストラクタ
      *
-     * @param context
+     * @param context コンテキスト
      */
     public NamePreviewAdapter(Context context, Collection<? extends String> items) {
         super(items);
@@ -32,16 +34,32 @@ public class NamePreviewAdapter extends EditableAdapter<String> {
 
         // Viewがあれば再利用
         View view;
+        ViewHolder holder;
         if (convertView == null) {
             view = inflater.inflate(R.layout.slot_item_name, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
         } else {
             view = convertView;
+            holder = (ViewHolder) convertView.getTag();
         }
-        // TODO: ViewHolder使う
 
         // 文言だけ差し替え
-        ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
+        holder.text1.setText(getItem(position));
 
         return view;
+    }
+
+    /**
+     * 専用ViewHolder
+     */
+    static class ViewHolder {
+
+        @Bind(android.R.id.text1)
+        TextView text1;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

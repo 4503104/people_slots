@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 
 /**
- * 進捗ダイアログ
+ * 進捗ダイアログ（通称「ぐるぐる」）
  */
 public class ProgressDialogFragment extends DialogFragment {
 
@@ -36,6 +36,9 @@ public class ProgressDialogFragment extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * 専用Builder
+     */
     public static class Builder {
 
         private Bundle args;
@@ -44,16 +47,33 @@ public class ProgressDialogFragment extends DialogFragment {
             args = new Bundle();
         }
 
+        /**
+         * タイトル（オプション）を設定
+         *
+         * @param titleId タイトル
+         * @return Builder自身
+         */
         public Builder setTitle(@StringRes int titleId) {
             args.putInt(ARG_TITLE_ID, titleId);
             return this;
         }
 
+        /**
+         * メッセージ（オプション）を設定
+         *
+         * @param messageId メッセージ
+         * @return Builder自身
+         */
         public Builder setMessage(@StringRes int messageId) {
             args.putInt(ARG_MESSAGE_ID, messageId);
             return this;
         }
 
+        /**
+         * Fragment生成
+         *
+         * @return Fragment
+         */
         public ProgressDialogFragment create() {
             ProgressDialogFragment fragment = new ProgressDialogFragment();
             fragment.setArguments(args);

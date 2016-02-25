@@ -33,7 +33,7 @@ public class FaceDetectFragment extends BaseFragment {
      * インスタンス生成
      *
      * @param targetImageUri 対象画像
-     * @return
+     * @return 新規Fragment
      */
     public static FaceDetectFragment newInstance(@NonNull Uri targetImageUri) {
         FaceDetectFragment fragment = new FaceDetectFragment();
@@ -43,11 +43,6 @@ public class FaceDetectFragment extends BaseFragment {
         return fragment;
     }
 
-    /**
-     * 生成時の処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,13 +112,13 @@ public class FaceDetectFragment extends BaseFragment {
         }
 
         // ぐるぐる閉じる
-        dissmissProgress();
+        dismissProgress();
     }
 
     /**
      * 進捗閉じる
      */
-    private void dissmissProgress() {
+    private void dismissProgress() {
         ProgressDialogFragment fragment = (ProgressDialogFragment) getFragmentManager().findFragmentByTag(TAG_PROGRESS_DIALOG);
         if (fragment != null) {
             fragment.getDialog().dismiss();
@@ -134,6 +129,12 @@ public class FaceDetectFragment extends BaseFragment {
      * 結果通知用Listener
      */
     public interface OnDetectListener {
+
+        /**
+         * 顔検出イベント
+         *
+         * @param faces 検出された顔
+         */
         void onDetectFaces(List<Uri> faces);
     }
 }

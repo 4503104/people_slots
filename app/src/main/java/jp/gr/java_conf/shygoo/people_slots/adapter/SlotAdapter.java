@@ -8,11 +8,6 @@ import java.util.Collections;
  */
 public abstract class SlotAdapter<T> extends CircularAdapter<T> {
 
-    /**
-     * コンストラクタ
-     *
-     * @param items
-     */
     public SlotAdapter(Collection<? extends T> items) {
         super(items);
 

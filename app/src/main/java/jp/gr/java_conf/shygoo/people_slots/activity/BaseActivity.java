@@ -115,6 +115,8 @@ public class BaseActivity extends AppCompatActivity
      */
     @Override
     public void onSelectItem(int itemId) {
+
+        // TODO: そもそもダイアログが連続で出てくるUIがイケてない
         switch (itemId) {
             case R.string.type_face:
                 askCaptureMethod();
@@ -161,8 +163,8 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 画像要求（汎用）
      *
-     * @param messageId
-     * @param tag
+     * @param messageId ユーザ向けメッセージ
+     * @param tag Fragment識別子
      */
     protected void requestImage(@StringRes int messageId, @NonNull String tag) {
         Fragment fragment = ImageCaptureFragment.newInstance(messageId);
@@ -172,8 +174,8 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 画像取得完了
      *
-     * @param tag
-     * @param imageUri
+     * @param tag Fragment識別子
+     * @param imageUri 取得した画像
      */
     @Override
     public void onCaptureImage(String tag, Uri imageUri) {
@@ -206,7 +208,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 指定されたFragmentを削除
      *
-     * @param tag
+     * @param tag Fragment識別子
      */
     protected void removeFragment(String tag) {
         Fragment fragment = getFragmentManager().findFragmentByTag(tag);
@@ -218,7 +220,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 顔検出の要求
      *
-     * @param targetImageUri
+     * @param targetImageUri 検出対象の画像
      */
     protected void requestDetectFaces(Uri targetImageUri) {
         Fragment fragment = FaceDetectFragment.newInstance(targetImageUri);
@@ -228,7 +230,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 顔検出完了
      *
-     * @param faces
+     * @param faces 検出された顔情報
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
@@ -252,9 +254,9 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 切り出し要求（汎用）
      *
-     * @param targetImageUri
-     * @param messageId
-     * @param tag
+     * @param targetImageUri 切り出し対象の画像
+     * @param messageId ユーザ向けメッセージ
+     * @param tag Fragment識別子
      */
     protected void requestCrop(@NonNull Uri targetImageUri, @StringRes int messageId, @NonNull String tag) {
         Fragment fragment = ImageCropFragment.newInstance(targetImageUri, messageId);
@@ -264,8 +266,8 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 画像切り出し完了
      *
-     * @param tag
-     * @param croppedImageUri
+     * @param tag Fragment識別子
+     * @param croppedImageUri 切り出された画像
      */
     @Override
     public void onCropImage(String tag, Uri croppedImageUri) {
@@ -290,7 +292,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * OCR要求
      *
-     * @param targetImageUri
+     * @param targetImageUri OCR対象の画像
      */
     private void requestOcr(Uri targetImageUri) {
         OcrFragment.newInstance(targetImageUri);
@@ -301,7 +303,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * OCR完了
      *
-     * @param roster
+     * @param roster OCR結果（名簿）
      */
     @Override
     public void onFinishOcr(List<String> roster) {
@@ -312,16 +314,18 @@ public class BaseActivity extends AppCompatActivity
      * 名前入力要求
      */
     protected void requestInputName() {
-        new NameInputDialogFragment().show(getFragmentManager(), TAG_REQUEST_INPUT_NAME);
+        new NameInputDialogFragment.Builder()
+                .create()
+                .show(getFragmentManager(), TAG_REQUEST_INPUT_NAME);
     }
 
     /**
      * 名前入力完了
      *
-     * @param text
+     * @param name 入力された文字列（名前）
      */
     @Override
-    public void onFinishInput(String text) {
+    public void onFinishInput(String name) {
         // nop
     }
 }

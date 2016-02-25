@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.Collection;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jp.gr.java_conf.shygoo.people_slots.R;
 
 /**
@@ -21,8 +23,8 @@ public class NameSlotAdapter extends SlotAdapter<String> {
     /**
      * コンストラクタ
      *
-     * @param context
-     * @param items
+     * @param context コンテキスト
+     * @param items 要素
      */
     public NameSlotAdapter(Context context, Collection<? extends String> items) {
         super(items);
@@ -34,17 +36,32 @@ public class NameSlotAdapter extends SlotAdapter<String> {
 
         // Viewがあれば再利用
         View view;
+        ViewHolder holder;
         if (convertView == null) {
             view = inflater.inflate(R.layout.slot_item_name, parent, false);
+            holder = new ViewHolder(view);
+            view.setTag(holder);
         } else {
             view = convertView;
+            holder = (ViewHolder) convertView.getTag();
         }
-        // TODO: ViewHolder使う
 
         // 文言だけ差し替え
-        TextView itemText = (TextView) view.findViewById(android.R.id.text1);
-        itemText.setText((String) getItem(position));
+        holder.text1.setText(getItem(position));
 
         return view;
+    }
+
+    /**
+     * 専用ViewHolder
+     */
+    static class ViewHolder {
+
+        @Bind(android.R.id.text1)
+        TextView text1;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

@@ -68,6 +68,9 @@ public class ChoiceDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * 専用Builder
+     */
     public static class Builder {
 
         private Bundle args;
@@ -76,21 +79,33 @@ public class ChoiceDialogFragment extends DialogFragment {
             args = new Bundle();
         }
 
+        /**
+         * タイトル（オプション）を設定
+         *
+         * @param titleId タイトル
+         * @return Builder自身
+         */
         public Builder setTitle(@StringRes int titleId) {
             args.putInt(ARG_TITLE_ID, titleId);
             return this;
         }
 
-        public Builder setMessage(@StringRes int messageId) {
-            args.putInt(ARG_MESSAGE_ID, messageId);
-            return this;
-        }
-
+        /**
+         * 選択肢（必須）を設定
+         *
+         * @param itemsId 選択肢
+         * @return Builder自身
+         */
         public Builder setItems(@ArrayRes int itemsId) {
             args.putInt(ARG_ITEMS_ID, itemsId);
             return this;
         }
 
+        /**
+         * Fragment生成
+         *
+         * @return Fragment
+         */
         public ChoiceDialogFragment create() {
             ChoiceDialogFragment fragment = new ChoiceDialogFragment();
             fragment.setArguments(args);
@@ -98,7 +113,16 @@ public class ChoiceDialogFragment extends DialogFragment {
         }
     }
 
+    /**
+     * 結果通知用Listener
+     */
     public interface OnSelectListener {
+
+        /**
+         * 選択イベント
+         *
+         * @param itemId 選択肢のID
+         */
         void onSelectItem(int itemId);
     }
 }

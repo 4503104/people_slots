@@ -31,7 +31,7 @@ public class ImageCaptureFragment extends BaseFragment {
      * インスタンス生成
      *
      * @param messageId ユーザに表示されるメッセージ
-     * @return
+     * @return 新規Fragment
      */
     public static ImageCaptureFragment newInstance(@StringRes int messageId) {
         ImageCaptureFragment fragment = new ImageCaptureFragment();
@@ -41,11 +41,6 @@ public class ImageCaptureFragment extends BaseFragment {
         return fragment;
     }
 
-    /**
-     * 生成時の処理
-     *
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +82,6 @@ public class ImageCaptureFragment extends BaseFragment {
 
     /**
      * 結果受信
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -142,6 +133,13 @@ public class ImageCaptureFragment extends BaseFragment {
      * 結果通知用Listener
      */
     public interface OnCaptureListener {
+
+        /**
+         * 画像取り込みイベント
+         *
+         * @param tag Fragment識別子
+         * @param imageUri 取り込んだ画像
+         */
         void onCaptureImage(String tag, Uri imageUri);
     }
 }
