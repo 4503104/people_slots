@@ -50,6 +50,8 @@
 
     <string name="error_storage_permission">Please permission to write storage.</string>
     <string name="error_capture_image">Failed to capture the photo.</string>
+    <string name="error_detect_face">Failed to detect faces.</string>
     <string name="error_crop_image">Failed to crop the photo.</string>
+    <string name="error_ocr">Failed to OCR.</string>
 
 </resources>

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
-import java.util.List;
+import java.util.Collection;
 
 import jp.gr.java_conf.shygoo.people_slots.R;
 
@@ -28,7 +28,7 @@ public class FaceSlotAdapter extends SlotAdapter<Uri> {
      * @param context
      * @param items
      */
-    public FaceSlotAdapter(Context context, List<Uri> items) {
+    public FaceSlotAdapter(Context context, Collection<? extends Uri> items) {
         super(items);
         this.requestManager = Glide.with(context);
         this.inflater = LayoutInflater.from(context);

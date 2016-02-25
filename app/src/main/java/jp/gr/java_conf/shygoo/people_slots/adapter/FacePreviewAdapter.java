@@ -5,10 +5,10 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import java.util.Collection;
 
@@ -17,7 +17,10 @@ import jp.gr.java_conf.shygoo.people_slots.R;
 /**
  * 名前をPreviewする為のAdapter
  */
-public class FacePreviewAdapter extends ArrayAdapter<Uri> {
+public class FacePreviewAdapter extends EditableAdapter<Uri> {
+
+    private LayoutInflater inflater;
+    private RequestManager requestManager;
 
     /**
      * コンストラクタ
@@ -25,9 +28,10 @@ public class FacePreviewAdapter extends ArrayAdapter<Uri> {
      * @param context
      * @param items
      */
-    public FacePreviewAdapter(Context context, Collection<Uri> items) {
-        super(context, 0);
-        addAll(items);
+    public FacePreviewAdapter(Context context, Collection<? extends Uri> items) {
+        super(items);
+        inflater = LayoutInflater.from(context);
+        requestManager = Glide.with(context);
     }
 
     @Override
@@ -36,15 +40,14 @@ public class FacePreviewAdapter extends ArrayAdapter<Uri> {
         // Viewがあれば再利用
         View view;
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.slot_item_face, parent, false);
+            view = inflater.inflate(R.layout.slot_item_face, parent, false);
         } else {
             view = convertView;
         }
         // TODO: ViewHolder使う
 
         // 画像だけ差し替え
-        ImageView imageView = (ImageView) view.findViewById(R.id.face_image);
-        Glide.with(getContext()).load(getItem(position)).into(imageView);
+        requestManager.load(getItem(position)).into((ImageView) view.findViewById(R.id.face_image));
 
         return view;
     }

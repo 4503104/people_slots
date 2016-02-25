@@ -16,6 +16,14 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
+    <!-- TODO: ちゃんとしたアイコン用意する -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/preview_add_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@android:drawable/ic_input_add" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.Collection;
 
 import jp.gr.java_conf.shygoo.people_slots.R;
 
@@ -24,7 +24,7 @@ public class NameSlotAdapter extends SlotAdapter<String> {
      * @param context
      * @param items
      */
-    public NameSlotAdapter(Context context, List<String> items) {
+    public NameSlotAdapter(Context context, Collection<? extends String> items) {
         super(items);
         this.inflater = LayoutInflater.from(context);
     }

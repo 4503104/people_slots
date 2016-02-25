@@ -1,12 +1,8 @@
 package jp.gr.java_conf.shygoo.people_slots.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,7 +13,7 @@ import jp.gr.java_conf.shygoo.people_slots.adapter.NameSlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
 import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
-public class SlotActivity extends SlotBaseActivity {
+public class SlotActivity extends BaseActivity {
 
     private static final String LOG_TAG = SlotActivity.class.getSimpleName();
 
@@ -46,18 +42,14 @@ public class SlotActivity extends SlotBaseActivity {
      */
     private void setAdapter() {
 
-        // スロットの種別に応じてAdapterを切り替える TODO: クラス分けるべき？
+        // スロットの種別に応じてAdapterを切り替える
         SlotAdapter adapter = null;
-        Intent intent = getIntent();
-        int slotType = intent.getIntExtra(EXTRA_SLOT_TYPE, 0);
         switch (slotType) {
             case SLOT_TYPE_FACE:
-                List<Uri> faces = intent.getParcelableArrayListExtra(EXTRA_ITEMS);
-                adapter = new FaceSlotAdapter(this, faces);
+                adapter = new FaceSlotAdapter(this, getPresetFaces());
                 break;
             case SLOT_TYPE_NAME:
-                List<String> names = intent.getStringArrayListExtra(EXTRA_ITEMS);
-                adapter = new NameSlotAdapter(this, names);
+                adapter = new NameSlotAdapter(this, getPresetNames());
                 break;
         }
         slotDrum.setDrumAdapter(adapter);

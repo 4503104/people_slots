@@ -3,6 +3,7 @@ package jp.gr.java_conf.shygoo.people_slots.adapter;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public abstract class CircularAdapter<T> extends BaseAdapter {
      *
      * @param items
      */
-    public CircularAdapter(List<T> items) {
+    public CircularAdapter(Collection<? extends T> items) {
         this.items = new ArrayList<>(items);
     }
 

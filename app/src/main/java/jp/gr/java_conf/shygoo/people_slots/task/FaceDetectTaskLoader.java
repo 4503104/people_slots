@@ -77,6 +77,8 @@ public class FaceDetectTaskLoader extends AsyncTaskLoader<List<Uri>> {
             // 顔部分を切り出して保存
             for (int i = 0, size = faces.size(); i < size; i++) {
                 Face face = faces.valueAt(i);
+
+                // TODO: 実際に切り出すより元画像URI+切り出し範囲の形で保持しとけば後から手動で補正できるなあ
                 Bitmap faceBmp = cropFace(targetBitmap, face);
                 String filename = String.format("face_%s_%d.png", date, i);
                 File outputFile = new File(outputDir, filename);

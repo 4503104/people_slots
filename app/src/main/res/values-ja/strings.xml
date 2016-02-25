@@ -37,6 +37,8 @@
 
     <string name="error_storage_permission">ストレージへの書き込みを許可してください。</string>
     <string name="error_capture_image">写真の取り込みに失敗しました。</string>
+    <string name="error_detect_face">顔検出に失敗しました。</string>
     <string name="error_crop_image">写真の切り出しに失敗しました。</string>
+    <string name="error_ocr">文字認識に失敗しました。</string>
 
 </resources>
