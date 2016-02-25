@@ -66,7 +66,7 @@ public class ImageCropFragment extends BaseFragment {
         int messageId = args.getInt(ARG_MESSAGE_ID);
 
         // 切り出しライブラリの画面を開く
-        Crop.of(targetImageUri, generateOutputUri()).asSquare().start(getActivity(), this);
+        Crop.of(targetImageUri, generateOutputUri()).start(getActivity(), this);
 
         // 何をすれば良いか分かりにくいのでガイドメッセージを表示
         Toast.makeText(getActivity(), messageId, Toast.LENGTH_SHORT).show();// TODO: Toastでいいのか？
