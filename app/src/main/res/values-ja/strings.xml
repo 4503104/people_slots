@@ -2,14 +2,46 @@
 
     <string name="app_name">今日の当番だぁれ？</string>
 
+    <string name="label_start">準備</string>
+    <string name="label_preview">プレビュー</string>
+    <string name="label_slot">楽しんでね！</string>
+
+    <string name="create_slot">新しいスロットを作る</string>
+
+    <string name="finish_edit">このデータでOK！</string>
+
     <string name="start">START</string>
     <string name="stop">STOP</string>
-    <string name="retry">やり直し</string>
 
-    <string name="method_ocr">名簿から取り込む</string>
-    <string name="method_frs">顔写真から取り込む</string>
-    <string name="method_manual">手入力</string>
+    <string name="ask_type">スロットの種類を選んでください。</string>
+    <string name="type_face">顔でスロット</string>
+    <string name="type_name">名前でスロット</string>
 
-    <string name="request_roster">名簿を用意してください。</string>
+    <string name="ask_capture_method">顔写真の取り込み方法を選んでください。</string>
+    <string name="capture_method_detect">自動検出</string>
+    <string name="capture_method_manual">手動で切り出す</string>
+
+    <string name="ask_input_method">名前の取り込み方法を選んでください。</string>
+    <string name="input_method_ocr">名簿を撮影する</string>
+    <string name="input_method_manual">手で入力</string>
+
+    <string name="hint_name_input">名前を入力してください。</string>
+
+    <string name="request_group_photo">集合写真を撮影してください。</string>
+    <string name="request_portrait_photo">顔写真を撮影してください。</string>
+    <string name="request_roster_photo">名簿を撮影してください。</string>
+    <string name="request_crop_portrait">顔の部分を選択してください。</string>
+    <string name="request_crop_roster">取り込みたい範囲を選択してください。</string>
+
+    <string name="progress_ocr">文字認識中です…</string>
+    <string name="progress_detect">顔を検出中です…</string>
+
+    <string name="face">顔</string>
+
+    <string name="error_storage_permission">ストレージへの書き込みを許可してください。</string>
+    <string name="error_capture_image">写真の取り込みに失敗しました。</string>
+    <string name="error_detect_face">顔検出に失敗しました。</string>
+    <string name="error_crop_image">写真の切り出しに失敗しました。</string>
+    <string name="error_ocr">文字認識に失敗しました。</string>
 
 </resources>

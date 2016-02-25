@@ -1,26 +1,25 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.adapter.FaceSlotAdapter;
+import jp.gr.java_conf.shygoo.people_slots.adapter.NameSlotAdapter;
+import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
+import jp.gr.java_conf.shygoo.people_slots.view.SlotDrumView;
 
+/**
+ * スロット画面
+ */
 public class SlotActivity extends BaseActivity {
 
-    private static final String LOG_TAG = SlotActivity.class.getSimpleName();
+    // TODO: スロットマシンのデザイン改善
 
-    // スロットに表示するデータ
-    public static final String EXTRA_ITEMS = "items";
-
-    // 画面部品
     @Bind(R.id.slot_drum)
     SlotDrumView slotDrum;
 
@@ -35,13 +34,25 @@ public class SlotActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slot);
         ButterKnife.bind(this);
+        setAdapter();
+    }
 
-        // 表示アイテムを取得
-        List<String> items = getIntent().getStringArrayListExtra(EXTRA_ITEMS);
-        Log.d(LOG_TAG, "items: {" + StringUtils.join(items, "|") + "}");
+    /**
+     * ListAdapter設定
+     */
+    private void setAdapter() {
 
-        // スロット初期化
-        slotDrum.initialize(items);
+        // スロットの種別に応じてAdapterを切り替える
+        SlotAdapter adapter = null;
+        switch (slotType) {
+            case SLOT_TYPE_FACE:
+                adapter = new FaceSlotAdapter(this, getPresetFaces());
+                break;
+            case SLOT_TYPE_NAME:
+                adapter = new NameSlotAdapter(this, getPresetNames());
+                break;
+        }
+        slotDrum.setDrumAdapter(adapter);
     }
 
     /**
@@ -71,7 +82,7 @@ public class SlotActivity extends BaseActivity {
         stopButton.setVisibility(View.GONE);
         startButton.setVisibility(View.VISIBLE);
 
-        // TODO: 当選者を表示
+        // TODO: 当選者を表示 with ド派手な演出
         // TODO: 当選者を除外して再抽選
     }
 }

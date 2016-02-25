@@ -5,4 +5,5 @@
     android:layout_height="@dimen/slot_item_height"
     android:ellipsize="middle"
     android:gravity="center"
+    android:maxLines="1"
     android:textSize="@dimen/slot_item_text" />

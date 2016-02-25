@@ -2,14 +2,58 @@
 
     <string name="app_name">Who is on duty ?</string>
 
+    <string name="label_start">Prepare</string>
+    <string name="label_preview">Preview</string>
+    <string name="label_slot">Have fun!</string>
+
+    <string name="create_slot">Create new slot</string>
+
+    <string name="finish_edit">Use these data</string>
+
     <string name="start">START</string>
     <string name="stop">STOP</string>
-    <string name="retry">RETRY</string>
 
-    <string name="method_ocr">From Roster</string>
-    <string name="method_frs">From Portrait</string>
-    <string name="method_manual">Manual Editing</string>
+    <string name="ask_type">Select slot-type.</string>
+    <string name="type_face">Face slot</string>
+    <string name="type_name">Name slot</string>
+    <string-array name="slot_types">
+        <item>@string/type_face</item>
+        <item>@string/type_name</item>
+    </string-array>
 
-    <string name="request_roster">Prepare the roster.</string>
+    <string name="ask_capture_method">Select face capturing method.</string>
+    <string name="capture_method_detect">Auto Detect</string>
+    <string name="capture_method_manual">Manual Crop</string>
+    <string-array name="capture_methods">
+        <item>@string/capture_method_detect</item>
+        <item>@string/capture_method_manual</item>
+    </string-array>
+
+    <string name="ask_input_method">Select name input method.</string>
+    <string name="input_method_ocr">Optical Character Recognition</string>
+    <string name="input_method_manual">Manual Input</string>
+    <string-array name="input_methods">
+        <item>@string/input_method_ocr</item>
+        <item>@string/input_method_manual</item>
+    </string-array>
+
+    <string name="hint_name_input">Input name.</string>
+
+    <string name="request_group_photo">Take a group photo.</string>
+    <string name="request_portrait_photo">Take a portrait.</string>
+    <string name="request_roster_photo">Take a photo of roster.</string>
+    <string name="request_crop_portrait">Crop face.</string>
+    <string name="request_crop_roster">Crop target texts.</string>
+
+    <string name="progress_ocr">OCR running…</string>
+    <string name="progress_detect">Face detecting…</string>
+
+    <string name="face">face</string>
+
+    <string name="error_storage_permission">Please permission to write storage.</string>
+    <string name="error_capture_image">Failed to capture the photo.</string>
+    <string name="error_detect_face">Failed to detect faces.</string>
+    <string name="error_crop_image">Failed to crop the photo.</string>
+    <string name="error_ocr">Failed to OCR.</string>
 
 </resources>

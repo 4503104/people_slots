@@ -1,19 +1,21 @@
-package jp.gr.java_conf.shygoo.people_slots;
+package jp.gr.java_conf.shygoo.people_slots.view;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
+import jp.gr.java_conf.shygoo.people_slots.R;
+import jp.gr.java_conf.shygoo.people_slots.adapter.SlotAdapter;
 
 /**
  * スロットマシンの回転する部分
@@ -27,23 +29,23 @@ public class SlotDrumView extends FrameLayout {
     ListView drumMain;
 
     // 回転速度
-    private static final int SCROLL_INTERVAL_MSEC = 48;// TODO: 速度調整
+    private static final int SCROLL_INTERVAL_MSEC = 96;// TODO: 速度調整
 
     // 専用Adapter
-    private CircularAdapter drumAdapter;
+    private SlotAdapter drumAdapter;
 
     // 位置調整用
-    private int itemStopPixel;
+    @State
+    int itemStopPixel;
 
-    // TODO: 状態の退避＆復元
     // スロットの状態
-    private boolean spinning;
-    private int position;
+    @State
+    boolean spinning;
+    @State
+    int position;
 
     /**
      * 引数1つのコンストラクタ
-     *
-     * @param context
      */
     public SlotDrumView(Context context) {
         this(context, null);
@@ -51,9 +53,6 @@ public class SlotDrumView extends FrameLayout {
 
     /**
      * 引数2つのコンストラクタ
-     *
-     * @param context
-     * @param attrs
      */
     public SlotDrumView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -61,10 +60,6 @@ public class SlotDrumView extends FrameLayout {
 
     /**
      * 引数3つのコンストラクタ
-     *
-     * @param context
-     * @param attrs
-     * @param defStyleAttr
      */
     public SlotDrumView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -83,19 +78,25 @@ public class SlotDrumView extends FrameLayout {
         drumMain.setEnabled(false);
     }
 
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return Icepick.saveInstanceState(this, super.onSaveInstanceState());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
+    }
+
     /**
-     * 初期化
+     * Adapter設定
      *
-     * @param items スロットに表示する要素（抽選対象）
+     * @param drumAdapter スロット専用Adapter
      */
-    public void initialize(List<String> items) {
+    public void setDrumAdapter(SlotAdapter drumAdapter) {
 
-        // スロットは通常のListViewとは上下逆向きに回転するので、Listを反転
-        List<String> reversedItems = new ArrayList<>(items);
-        Collections.reverse(reversedItems);
-
-        // 循環Adapterを設定
-        drumAdapter = new CircularAdapter(getContext(), R.layout.slot_item, reversedItems);
+        // Adapterを設定
+        this.drumAdapter = drumAdapter;
         drumMain.setAdapter(drumAdapter);
 
         // ドラム位置を初期化
@@ -172,5 +173,7 @@ public class SlotDrumView extends FrameLayout {
         spinning = false;
 
         // TODO: 抽選結果を返す
+        // TODO: 徐々に回転速度を落とす
+        // TODO: 停止タイミングに若干の揺らぎを持たせる（目押し防止）
     }
 }

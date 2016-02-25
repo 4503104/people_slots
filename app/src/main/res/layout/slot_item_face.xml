@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/slot_item_height">
+
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="@dimen/slot_item_face"
+        android:layout_height="@dimen/slot_item_face"
+        android:layout_gravity="center"
+        android:contentDescription="@string/face" />
+
+</FrameLayout>
