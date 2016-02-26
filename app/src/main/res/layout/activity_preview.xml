@@ -12,7 +12,8 @@
     <ListView
         android:id="@+id/preview_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:footerDividersEnabled="false" />
 
     <Button
         android:id="@+id/finish_edit"
