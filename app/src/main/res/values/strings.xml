@@ -1,21 +1,22 @@
 <resources>
 
-    <string name="app_name">Who is on duty ?</string>
+    <string name="app_name">Who is day duty ?</string>
+    <string name="app_description">This is a fun app to choose a person on duty.</string>
 
-    <string name="label_start">Prepare</string>
-    <string name="label_preview">Preview</string>
+    <string name="label_start">Day duty</string>
+    <string name="label_preview">Confirm</string>
     <string name="label_slot">Have fun!</string>
 
-    <string name="create_slot">Create new slot</string>
+    <string name="create_slot">Let\'s start!</string>
 
     <string name="finish_edit">Use these data</string>
 
     <string name="start">START</string>
     <string name="stop">STOP</string>
 
-    <string name="ask_type">Select slot-type.</string>
-    <string name="type_face">Face slot</string>
-    <string name="type_name">Name slot</string>
+    <string name="ask_type">How choose?</string>
+    <string name="type_face">Choose from faces</string>
+    <string name="type_name">Choose from names</string>
     <string-array name="slot_types">
         <item>@string/type_face</item>
         <item>@string/type_name</item>

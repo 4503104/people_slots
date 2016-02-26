@@ -30,13 +30,16 @@ import jp.gr.java_conf.shygoo.people_slots.swipedismiss.SwipeDismissListViewTouc
  */
 public class PreviewActivity extends BaseActivity {
 
+    // TODO: スロットから戻ってくるとデータがリセットされる不具合に対応
     // TODO: 要素追加時のスクロール制御
     // TODO: 画面閉じる時に画像データ破棄
 
     // フラグメント呼び出し用
     private static final String TAG_REQUEST_EDIT_NAME = "requestEditName";
 
-    /** アイテム位置：なし */
+    /**
+     * アイテム位置：なし
+     */
     private static final int ITEM_POSITION_NOTHING = -1;
 
     @State
@@ -248,6 +251,7 @@ public class PreviewActivity extends BaseActivity {
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
+        removeFragment(TAG_REQUEST_DETECT_FACES);
         if (faces.isEmpty()) {
             Toast.makeText(this, R.string.error_detect_face, Toast.LENGTH_SHORT).show();
         } else {
@@ -262,6 +266,7 @@ public class PreviewActivity extends BaseActivity {
     @Override
     public void onCropImage(String tag, Uri croppedImageUri) {
         if (TAG_REQUEST_CROP_FACE.equals(tag)) {
+            removeFragment(TAG_REQUEST_CROP_FACE);
             if (croppedImageUri == null) {
                 Toast.makeText(this, R.string.error_crop_image, Toast.LENGTH_SHORT).show();
             } else {
@@ -283,6 +288,7 @@ public class PreviewActivity extends BaseActivity {
      */
     @Override
     public void onFinishOcr(List<String> roster) {
+        removeFragment(TAG_REQUEST_OCR);
         if (roster.isEmpty()) {
             Toast.makeText(this, R.string.error_ocr, Toast.LENGTH_SHORT).show();
         } else {
@@ -309,9 +315,11 @@ public class PreviewActivity extends BaseActivity {
     @Override
     public void onFinishInput(String name) {
         if (isChanging()) {
+            removeFragment(TAG_REQUEST_EDIT_NAME);
             nameAdapter.changeItem(changingItemPosition, name);
             changingItemPosition = ITEM_POSITION_NOTHING;
         } else {
+            removeFragment(TAG_REQUEST_INPUT_NAME);
             nameAdapter.addItem(name);
             finishEditButton.setEnabled(true);
         }

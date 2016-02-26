@@ -1,13 +1,12 @@
 package jp.gr.java_conf.shygoo.people_slots.activity;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,12 +40,11 @@ public class StartActivity extends BaseActivity {
     /**
      * ストレージ利用許可要求
      */
-    @TargetApi(Build.VERSION_CODES.M)
     private void requestStoragePermission() {
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSION);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSION);
     }
 
     /**
@@ -100,6 +98,7 @@ public class StartActivity extends BaseActivity {
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
+        removeFragment(TAG_REQUEST_DETECT_FACES);
         if (faces.isEmpty()) {
             Toast.makeText(this, R.string.error_detect_face, Toast.LENGTH_SHORT).show();
         } else {
@@ -113,6 +112,7 @@ public class StartActivity extends BaseActivity {
     @Override
     public void onCropImage(String tag, Uri croppedImageUri) {
         if (TAG_REQUEST_CROP_FACE.equals(tag)) {
+            removeFragment(TAG_REQUEST_CROP_FACE);
             if (croppedImageUri == null) {
                 Toast.makeText(this, R.string.error_crop_image, Toast.LENGTH_SHORT).show();
             } else {
@@ -138,6 +138,7 @@ public class StartActivity extends BaseActivity {
      */
     @Override
     public void onFinishOcr(List<String> roster) {
+        removeFragment(TAG_REQUEST_OCR);
         if (roster.isEmpty()) {
             Toast.makeText(this, R.string.error_ocr, Toast.LENGTH_SHORT).show();
         } else {

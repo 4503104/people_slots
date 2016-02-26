@@ -116,6 +116,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public void onSelectItem(int itemId) {
 
+        // TODO: キャンセルイベントも拾えるようにする
         // TODO: そもそもダイアログが連続で出てくるUIがイケてない
         switch (itemId) {
             case R.string.type_face:
@@ -164,7 +165,7 @@ public class BaseActivity extends AppCompatActivity
      * 画像要求（汎用）
      *
      * @param messageId ユーザ向けメッセージ
-     * @param tag Fragment識別子
+     * @param tag       Fragment識別子
      */
     protected void requestImage(@StringRes int messageId, @NonNull String tag) {
         Fragment fragment = ImageCaptureFragment.newInstance(messageId);
@@ -174,7 +175,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 画像取得完了
      *
-     * @param tag Fragment識別子
+     * @param tag      Fragment識別子
      * @param imageUri 取得した画像
      */
     @Override
@@ -213,7 +214,7 @@ public class BaseActivity extends AppCompatActivity
     protected void removeFragment(String tag) {
         Fragment fragment = getFragmentManager().findFragmentByTag(tag);
         if (fragment != null) {
-            getFragmentManager().beginTransaction().remove(fragment).commit();
+            getFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
         }
     }
 
@@ -234,6 +235,7 @@ public class BaseActivity extends AppCompatActivity
      */
     @Override
     public void onDetectFaces(List<Uri> faces) {
+
         // nop
     }
 
@@ -255,8 +257,8 @@ public class BaseActivity extends AppCompatActivity
      * 切り出し要求（汎用）
      *
      * @param targetImageUri 切り出し対象の画像
-     * @param messageId ユーザ向けメッセージ
-     * @param tag Fragment識別子
+     * @param messageId      ユーザ向けメッセージ
+     * @param tag            Fragment識別子
      */
     protected void requestCrop(@NonNull Uri targetImageUri, @StringRes int messageId, @NonNull String tag) {
         Fragment fragment = ImageCropFragment.newInstance(targetImageUri, messageId);
@@ -266,7 +268,7 @@ public class BaseActivity extends AppCompatActivity
     /**
      * 画像切り出し完了
      *
-     * @param tag Fragment識別子
+     * @param tag             Fragment識別子
      * @param croppedImageUri 切り出された画像
      */
     @Override
