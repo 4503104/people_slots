@@ -65,9 +65,9 @@ public class ImageCaptureFragment extends BaseFragment {
         fileIntent.setType("image/*");
 
         // どちらの方法でも良いので、画像を要求
-        Intent chooSerIntent = Intent.createChooser(cameraIntent, getString(getArguments().getInt(ARG_MESSAGE_ID)));
-        chooSerIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{fileIntent});
-        startActivityForResult(chooSerIntent, SELF_REQUEST_CODE);
+        Intent chooserIntent = Intent.createChooser(cameraIntent, getString(getArguments().getInt(ARG_MESSAGE_ID)));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{fileIntent});
+        startActivityForResult(chooserIntent, SELF_REQUEST_CODE);
     }
 
     /**
