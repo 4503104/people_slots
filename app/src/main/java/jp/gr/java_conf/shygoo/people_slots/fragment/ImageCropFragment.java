@@ -27,6 +27,7 @@ public class ImageCropFragment extends BaseFragment {
 
     private static final String ARG_TARGET_IMAGE_URI = "targetImageUri";
     private static final String ARG_MESSAGE_ID = "messageId";
+    private static final String ARG_CROPPED_IMAGE_NAME = "croppedImageName";
 
     /**
      * インスタンス生成
@@ -40,8 +41,19 @@ public class ImageCropFragment extends BaseFragment {
         Bundle args = new Bundle();
         args.putParcelable(ARG_TARGET_IMAGE_URI, targetImageUri);
         args.putInt(ARG_MESSAGE_ID, messageId);
+        args.putString(ARG_CROPPED_IMAGE_NAME, generateOutputFilename());// この時点でファイル名を決めておく（Activity破棄対策）
         fragment.setArguments(args);
         return fragment;
+    }
+
+    /**
+     * 出力先ファイル名生成
+     *
+     * @return 日時をベースにした新規画像ファイル名
+     */
+    private static String generateOutputFilename() {
+        CharSequence date = DateFormat.format("yyyyMMdd_kkmmss", Calendar.getInstance());
+        return String.format("cropped_%s", date);
     }
 
     @Override
@@ -59,25 +71,22 @@ public class ImageCropFragment extends BaseFragment {
         Bundle args = getArguments();
         Uri targetImageUri = args.getParcelable(ARG_TARGET_IMAGE_URI);
         int messageId = args.getInt(ARG_MESSAGE_ID);
+        String croppedImageName = args.getString(ARG_CROPPED_IMAGE_NAME, "");
+
+        // 既にファイルがある（＝切り出し済み）ならスキップ（Activity破棄対策）
+        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File croppedImageFile = new File(dir, croppedImageName);
+        Uri croppedImageUri = Uri.fromFile(croppedImageFile);
+        if (croppedImageFile.exists()) {
+            notifyResult(croppedImageUri);
+            return;
+        }
 
         // 切り出しライブラリの画面を開く
-        Crop.of(targetImageUri, generateOutputUri()).start(getActivity(), this);
+        Crop.of(targetImageUri, croppedImageUri).start(getActivity(), this);
 
         // 何をすれば良いか分かりにくいのでガイドメッセージを表示
         Toast.makeText(getActivity(), messageId, Toast.LENGTH_SHORT).show();// TODO: Toastでいいのか？
-    }
-
-    /**
-     * 出力先URI生成
-     *
-     * @return 日時をベースにした新規画像URI
-     */
-    private Uri generateOutputUri() {
-        // TODO: 保存場所ここでいいの？
-        File dir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        CharSequence date = DateFormat.format("yyyyMMdd_kkmmss", Calendar.getInstance());
-        String filename = String.format("cropped_%s", date);
-        return Uri.fromFile(new File(dir, filename));
     }
 
     /**
