@@ -114,11 +114,33 @@ public class FaceDetectTaskLoader extends AsyncTaskLoader<List<Uri>> {
      * @return 切り出した顔
      */
     private Bitmap cropFace(Bitmap srcBmp, Face face) {
+
+        // 顔の座標を取得
         PointF facePosition = face.getPosition();
         int x = (int) facePosition.x;
         int y = (int) facePosition.y;
         int width = (int) face.getWidth();
         int height = (int) face.getHeight();
+
+        // 顔が枠外にはみ出している場合は補正
+        if (x < 0) {
+            width += x;
+            x = 0;
+        }
+        int maxWidth = srcBmp.getWidth();
+        int maxHeight = srcBmp.getHeight();
+        if (y < 0) {
+            height += y;
+            y = 0;
+        }
+        if (x + width > maxWidth) {
+            width = maxWidth - x;
+        }
+        if (y + height > maxHeight) {
+            height = maxHeight - y;
+        }
+
+        // 該当部分を切り出して返す
         return Bitmap.createBitmap(srcBmp, x, y, width, height, null, false);
     }
 
